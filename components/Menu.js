@@ -11,9 +11,7 @@ export default function Menu() {
       >
         <FontAwesome5 name="home" size={24} color="#000" />
         <FontAwesome5 name="chart-pie" size={24} color="#000" />
-        <View
-          style={tw`w-15 h-15 bg-black justify-center items-cente rounded-3xl`}
-        >
+        <View style={tw`w-15 h-15 bg-black justify-center rounded-3xl`}>
           <FontAwesome5
             name="plus"
             size={24}

@@ -1,9 +1,10 @@
 import { Text, View, StatusBar } from "react-native";
 import tw from "twrnc";
+import Menu from "./components/Menu";
 export default function App() {
   return (
-    <View style={tw`flex-1 justify-center items-center bg-blue-400`}>
-      <Text>Yo</Text>
+    <View>
+      <Menu></Menu>
       <StatusBar style="auto" />
     </View>
   );

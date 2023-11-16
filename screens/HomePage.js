@@ -11,9 +11,9 @@ export default function HomePage() {
       <View>
         <CustomCalendar />
       </View>
-      <Text style={tw`ml-6 font-bold text-xl`}>Today</Text>
+      <Text style={tw`ml-6 font-bold text-xl mt-2`}>Today</Text>
       <EmotionEachDay />
-      <EmotionPick x />
+      <EmotionPick />
     </View>
   );
 }

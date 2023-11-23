@@ -1,10 +1,12 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
 import tw from "twrnc";
-export default function EmotionPick() {
+export default function EmotionPick({ bgColor }) {
   return (
     <View>
-      <View style={tw`bg-[#FFF2E0] my-3 mx-5 py-3 rounded-xl`}>
+      <View
+        style={[tw`my-3 mx-5 py-3 rounded-lg`, { backgroundColor: bgColor }]}
+      >
         <Text style={tw`text-center font-bold text-lg`}>How was your day?</Text>
         <View style={tw`flex-row justify-center`}>
           <Image

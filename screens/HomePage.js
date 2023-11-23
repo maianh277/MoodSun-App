@@ -13,7 +13,7 @@ export default function HomePage() {
       </View>
       <Text style={tw`ml-6 font-bold text-xl mt-2`}>Today</Text>
       <EmotionEachDay />
-      <EmotionPick />
+      <EmotionPick bgColor="#FFF2E0" />
     </View>
   );
 }

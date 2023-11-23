@@ -8,6 +8,7 @@ import SignUpScreen from "./components/Create";
 import ResetPasswordScreen from "./components/ResetPass";
 import VerificationScreen from "./components/ResetPass2";
 import LoginScreen1 from "./components/PassLock";
+import TermsOfServiceScreen from "./components/TermsOfService";
 export default function App() {
   return (
     <View>
@@ -17,11 +18,12 @@ export default function App() {
       {/* <CreateTaskPage /> */}
       {/* <CreateTaskInputPage /> */}
       {/* <SettingsScreen></SettingsScreen> */}
-      {/* <LoginScreen></LoginScreen> */}
-      <SignUpScreen></SignUpScreen>
+      <LoginScreen></LoginScreen>
+      {/* <SignUpScreen></SignUpScreen> */}
       {/* <ResetPasswordScreen></ResetPasswordScreen> */}
       {/* <VerificationScreen></VerificationScreen> */}
       {/* <LoginScreen1></LoginScreen1> */}
+      {/* <TermsOfServiceScreen></TermsOfServiceScreen> */}
     </View>
   );
 }

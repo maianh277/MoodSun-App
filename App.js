@@ -1,15 +1,9 @@
-import { Text, View, StatusBar } from "react-native";
-import SignUpScreen from "./screens/Create";
-import ResetPasswordScreen from "./screens/ResetPass";
-import SettingsScreen from "./screens/Setting";
-
-
+import { NavigationContainer } from "@react-navigation/native";
+import AppNavigator from "./navigation/AppNavigator";
 export default function App() {
   return (
-    <View>
-      {/* <SignUpScreen></SignUpScreen> */}
-{/* <ResetPasswordScreen></ResetPasswordScreen> */}
-<SettingsScreen></SettingsScreen>
-    </View>
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
   );
 }

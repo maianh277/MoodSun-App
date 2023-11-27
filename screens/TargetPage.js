@@ -6,7 +6,7 @@ import Task from "../components/Task";
 
 export default function TargetPage() {
   return (
-    <View>
+    <View style={tw`bg-white p-2 pt-10 flex-1`}>
       <View>
         <CustomCalendar />
       </View>

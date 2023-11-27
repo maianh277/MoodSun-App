@@ -2,12 +2,11 @@ import { View, Text } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import CustomCalendar from "../components/CustomCalendar";
-
 import EmotionEachDay from "../components/EmotionEachDay";
 import EmotionPick from "../components/EmotionPick";
 export default function HomePage() {
   return (
-    <View>
+    <View style={tw`bg-white p-2 pt-10 flex-1`}>
       <View>
         <CustomCalendar />
       </View>

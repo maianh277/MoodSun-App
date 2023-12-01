@@ -11,7 +11,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MenuNavigator from "./MenuNavigator";
 import StatisticPage from "../screens/StatisticPage";
 import SignUp from "../screens/SignUp";
-
+import CreateTaskInputPage from "../screens/CreateTaskInputPage";
 const Stack = createStackNavigator();
 export default function AppNavigator() {
   return (
@@ -19,6 +19,11 @@ export default function AppNavigator() {
       <Stack.Screen
         name="Menu"
         component={MenuNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CreateTaskInputPage"
+        component={CreateTaskInputPage}
         options={{ headerShown: false }}
       />
       <Stack.Screen

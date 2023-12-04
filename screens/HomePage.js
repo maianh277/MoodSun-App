@@ -7,6 +7,7 @@ import EmotionPick from "../components/EmotionPick";
 export default function HomePage() {
   return (
     <View style={tw`bg-white p-2 pt-10 flex-1`}>
+      <Text style={tw`font-bold text-xl my-3 mx-5`}>Your Mood Status</Text>
       <View>
         <CustomCalendar />
       </View>

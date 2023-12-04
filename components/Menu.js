@@ -7,7 +7,7 @@ export default function Menu({ state, navigation }) {
   const routeNames = [
     "HomePage",
     "StatisticPage",
-    "CreateTaskPage",
+    "CreateEmotion",
     "TargetPage",
     "SettingsScreen",
   ];
@@ -20,7 +20,7 @@ export default function Menu({ state, navigation }) {
         return "chart-pie";
       case "TargetPage":
         return "tasks";
-      case "CreateTaskPage":
+      case "CreateEmotion":
         return "plus";
       case "SettingsScreen":
         return "cog";
@@ -30,7 +30,7 @@ export default function Menu({ state, navigation }) {
   };
 
   const onPress = (routeName) => {
-    if (routeName === "CreateTaskPage") {
+    if (routeName === "CreateEmotion") {
       navigation.navigate(routeName, { isModal: true });
     } else {
       navigation.navigate(routeName);
@@ -47,7 +47,7 @@ export default function Menu({ state, navigation }) {
         const iconName = getIconName(routeName, isFocused);
 
         const plusIconStyle =
-          routeName === "CreateTaskPage"
+          routeName === "CreateEmotion"
             ? {
                 backgroundColor: "black",
                 borderRadius: 50,
@@ -62,7 +62,7 @@ export default function Menu({ state, navigation }) {
             onPress={() => onPress(routeName)}
             style={tw`flex-1 items-center`}
           >
-            {routeName === "CreateTaskPage" ? (
+            {routeName === "CreateEmotion" ? (
               <View style={plusIconStyle}>
                 <FontAwesome5
                   name={iconName}

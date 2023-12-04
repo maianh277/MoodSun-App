@@ -6,7 +6,7 @@ import SettingsScreen from "../screens/Setting";
 import StatisticPage from "../screens/StatisticPage";
 import CreateTaskPage from "../screens/CreateTaskPage";
 import Menu from "../components/Menu";
-
+import CreateEmotion from "../screens/CreateEmotion";
 const Tab = createBottomTabNavigator();
 
 export default function MenuNavigator() {
@@ -23,8 +23,8 @@ export default function MenuNavigator() {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="CreateTaskPage"
-        component={CreateTaskPage}
+        name="CreateEmotion"
+        component={CreateEmotion}
         options={{ headerShown: false }}
       />
       <Tab.Screen

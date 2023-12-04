@@ -6,11 +6,11 @@ const EmailAndPasswordInput = ({ password, setPassword, secureTextEntry, setSecu
   return (
     <>
       <TextInput
-        style={tw`border border-gray-300 p-4 rounded mb-4`}
+        style={tw`border border-gray-300 p-4 rounded mb-2`}
         placeholder="Email"
         keyboardType="email-address"
       />
-      <View style={tw`flex-row items-center border border-gray-300 p-4 rounded mb-4`}>
+      <View style={tw`flex-row items-center border border-gray-300 p-4 rounded mb-2`}>
         <TextInput
           style={tw`flex-1`}
           placeholder="Password"

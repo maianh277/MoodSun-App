@@ -16,8 +16,8 @@ const SignUp = () => {
   const navigation = useNavigation();
   return (
     <View style={tw`mt-12 px-4 py-2`}>
-      <Text style={tw`text-3xl font-bold  mb-2`}>Create an account</Text>
-      <Text style={tw` mb-6`}>Be one of our family!</Text>
+      <Text style={tw`text-3xl font-bold `}>Create an account</Text>
+      <Text style={tw`text-slate-400 mb-6`}>Be one of our family!</Text>
       <SignUpForm
         email={email}
         setEmail={setEmail}

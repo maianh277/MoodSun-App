@@ -9,8 +9,8 @@ const VerificationScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={tw`mt-12 px-4 py-2 bg-white`}>
-      <Text style={tw`text-3xl font-bold  mb-2`}>Reset Password</Text>
-      <Text style={tw`mb-6`}>
+      <Text style={tw`text-3xl font-bold  `}>Reset Password</Text>
+      <Text style={tw`text-slate-400 mb-4`}>
         Please enter the verification code sent to phone number to recover the
         password.
       </Text>

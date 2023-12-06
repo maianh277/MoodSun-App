@@ -5,6 +5,7 @@ import tw from "twrnc";
 import Task from "../components/Task";
 import { Ionicons } from "@expo/vector-icons";
 import CreateTaskPage from "../screens/CreateTaskPage";
+import CreateTaskInputPage from "./CreateTaskInputPage";
 
 export default function TargetPage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -34,7 +35,7 @@ export default function TargetPage() {
       <Text style={tw`ml-6 font-bold text-xl mt-2`}>Task</Text>
       <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
       <Task />
-      <CreateTaskPage isModal={isModalVisible} closeModal={closeModal} />
+      <CreateTaskInputPage isModal={isModalVisible} closeModal={closeModal} />
     </View>
   );
 }

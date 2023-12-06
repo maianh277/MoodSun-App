@@ -3,8 +3,6 @@ import { View, Dimensions, Image, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import tw from "twrnc";
 
-// const screenWidth = Dimensions.get("window").width;
-
 const MoodChart = ({ data }) => {
   return (
     <View>
@@ -39,15 +37,14 @@ const MoodChart = ({ data }) => {
           height={200}
           chartConfig={chartConfig}
           bezier
-          hidePointsAtIndex={[]} // Thêm chỉ số của các điểm bạn muốn ẩn
-          withHorizontalLabels={false} // Cái này sẽ ẩn các nhãn dọc
+          hidePointsAtIndex={[]}
+          withHorizontalLabels={false}
         />
       </View>
     </View>
   );
 };
 
-// Cung cấp dữ liệu thực tế và cấu hình biểu đồ của bạn
 const data = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   datasets: [

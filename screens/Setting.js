@@ -11,7 +11,7 @@ const SettingsScreen = () => {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   return (
-    <View style={tw`bg-white p-4 pt-10 flex-1`}>
+    <View style={tw`bg-white p-7 pt-10 flex-1`}>
       <Text style={tw`text-3xl text-center font-bold  mb-2`}>Settings</Text>
       <Account />
       <Customization isEnabled={isEnabled} toggleSwitch={toggleSwitch} />

@@ -5,7 +5,7 @@ import tw from "twrnc";
 
 const MoodChart = ({ data }) => {
   return (
-    <View>
+    <View >
       <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text>
       <View style={tw`flex-row`}>
         <View style={tw`flex flex-col items-center justify-center mr-2`}>
@@ -33,7 +33,7 @@ const MoodChart = ({ data }) => {
 
         <LineChart
           data={data}
-          width={350}
+          width={320}
           height={200}
           chartConfig={chartConfig}
           bezier
@@ -50,26 +50,26 @@ const data = {
   datasets: [
     {
       data: [20, 45, 28, 80, 99, 43, 50],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+      color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
       strokeWidth: 2,
     },
   ],
 };
 
 const chartConfig = {
-  backgroundColor: "#e26a00",
-  backgroundGradientFrom: "#fb8c00",
-  backgroundGradientTo: "#ffa726",
+  backgroundColor: "#FEFCF5",
+  backgroundGradientFrom: "#FEFCF5",
+  backgroundGradientTo:"#FEFCF5",
   decimalPlaces: 2,
   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
   style: {
     borderRadius: 16,
   },
   propsForDots: {
-    r: "6",
-    strokeWidth: "2",
-    stroke: "#ffa726",
+    r: "0",
+    strokeWidth: "5",
+    stroke: "#FC4C4C",
   },
 };
 

@@ -24,7 +24,7 @@ const AccountComponent = () => {
       {email ? (
         <Text style={tw`text-lg ml-4`}>{email}</Text>
       ) : (
-        <TouchableOpacity style={tw`py-3 border-b border-gray-200`}>
+        <TouchableOpacity style={tw` border-b border-gray-200`}>
           <View style={tw`flex-row items-center p-2`}>
             <Image
               style={tw`h-5 w-5`}

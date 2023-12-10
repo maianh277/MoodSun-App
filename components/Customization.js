@@ -16,11 +16,11 @@ const CustomizationComponent = () => {
 
   return (
     <View>
-      <Text style={tw`text-xl font-bold p-2 mt-4`}>Customization</Text>
-      <View style={tw`mt-0`}>
+      <Text style={tw`mt-4 text-xl font-bold p-2`}>Customization</Text>
+      <View>
         
-        <View style={tw`py-3 border-b border-gray-200`}>
-          <View style={tw`flex-row items-center p-2`}>
+        <View style={tw` border-b border-gray-200`}>
+          <View style={tw`flex-row items-center pl-2`}>
             <Image style={tw`h-5 w-5`} source={require('../assets/createTaskIcon/locked.png')} />
             <Text style={tw`text-lg ml-4`}>Password Lock</Text>
             <Switch

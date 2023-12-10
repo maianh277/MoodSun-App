@@ -11,15 +11,15 @@ const chartData = {
   datasets: [
     {
       data: [20, 45, 28, 80, 99, 43, 50],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
-      strokeWidth: 2,
+      color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
+      strokeWidth: 5,
     },
   ],
 };
 export default function StatisticPage() {
   return (
-    <View style={tw`bg-white p-2 pt-10 flex-1`}>
-      <View style={tw` items-center mt-3`}>
+    <View style={tw`bg-white p-7 pt-10 flex-1`}>
+      <View style={tw`items-center mt-3 `}>
         <MoodChart data={chartData} />
       </View>
       <MoodBarComponent></MoodBarComponent>

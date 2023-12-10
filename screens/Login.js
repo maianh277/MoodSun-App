@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import tw from "twrnc";
 import EmailAndPasswordInput from "../components/EmailAndPasswordInput";
@@ -6,28 +6,55 @@ import LoginButton from "../components/CustomButton";
 import SocialLoginOptions from "../components/SocialLoginOptions";
 import DividerText from "../components/DividerText";
 import { useNavigation } from "@react-navigation/native";
-import SimpleLineChart from "../components/SimpleLineChart";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/FirebaseConfig";
 
 const LoginScreen = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.replace("Menu");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+  const handleLogin = () => {
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log(user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
     <View style={tw` mt-12 px-4 py-2`}>
-      <Text style={tw`text-3xl font-bold  `}>Hi, welcome back!</Text>
-      <Text style={tw`text-slate-400 mb-6`}>Hello again, you've been missed!</Text>
+      <Text style={tw`text-3xl font-bold`}>Hi, welcome back!</Text>
+      <Text style={tw`text-slate-400 mb-6`}>
+        Hello again, you've been missed!
+      </Text>
 
       <EmailAndPasswordInput
+        email={email}
+        setEmail={setEmail}
         password={password}
         setPassword={setPassword}
         secureTextEntry={secureTextEntry}
         setSecureTextEntry={setSecureTextEntry}
       />
 
-      <LoginButton
-        onLoginPress={() => navigation.navigate("Menu")}
-        buttonText="Login"
-      />
+      <LoginButton onLoginPress={handleLogin} buttonText="Login" />
 
       <View style={tw`flex-row justify-between mb-4`}>
         <View style={tw`flex-row items-center`}>
@@ -46,10 +73,9 @@ const LoginScreen = () => {
       <SocialLoginOptions />
       {/* <SimpleLineChart></SimpleLineChart> */}
       <View style={tw`flex-row justify-center mb-4 mt-4`}>
-      <Text>Don't have an account?</Text>
-      <Text onPress={() => navigation.navigate("Signup")}>Sign up</Text>
+        <Text>Don't have an account?</Text>
+        <Text onPress={() => navigation.navigate("Signup")}>Sign up</Text>
       </View>
-      
     </View>
   );
 };

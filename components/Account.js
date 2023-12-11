@@ -15,7 +15,6 @@ const AccountComponent = () => {
         setEmail(null);
       }
     });
-
     return unsubscribe;
   }, []);
   return (

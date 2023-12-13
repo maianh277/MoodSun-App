@@ -2,9 +2,10 @@ import { View, Text, Image, Switch } from "react-native";
 import { useState } from "react";
 import React from "react";
 import tw from "twrnc";
-export default function Reminder() {
-  const [isEnabled, setIsEnabled] = useState(false);
+
+export default function Reminder({ isEnabled, setIsEnabled }) {
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
   return (
     <View>
       <View style={tw`flex-row items-center justify-between mx-7 mt-3 mb-3`}>

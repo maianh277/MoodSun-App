@@ -8,7 +8,7 @@ const LoginButton = ({ onLoginPress, buttonText }) => {
     <View>
       <TouchableOpacity
         onPress={onLoginPress}
-        style={tw`bg-[#ffbc5d] w-full p-4 rounded-lg mb-4`}
+        style={tw`bg-[#ffbc5d] w-full p-3 rounded-lg mb-4`}
       >
         <Text style={tw`text-center text-white text-lg`}>{buttonText}</Text>
       </TouchableOpacity>

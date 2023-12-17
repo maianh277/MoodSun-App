@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  RefreshControl,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import CustomCalendar from "../components/CustomCalendar";
 import tw from "twrnc";
 import Task from "../components/Task";
 import { Ionicons } from "@expo/vector-icons";
 import CreateTaskInputPage from "./CreateTaskInputPage";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getCountFromServer,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
+import { getAuth } from "firebase/auth";
 
 export default function TargetPage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [tasks, setTasks] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [totalTask, setTotalTask] = useState(0);
+  const [doneTask, setDoneTask] = useState(0);
+  //Take the current user's email
+  const userEmail = getAuth().currentUser.email;
 
   const openModal = () => {
     setIsModalVisible(true);
@@ -27,9 +31,15 @@ export default function TargetPage() {
     setIsModalVisible(false);
   };
 
+  // fetch task depend on current user
   const fetchTasks = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "task"));
+      const querySnapshot = await getDocs(
+        query(collection(db, "task"), where("account", "==", userEmail))
+      );
+      // console.log("Current logged in user:", userEmail);
+      // console.log("Query result:", querySnapshot.docs);
+
       const newTasks = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -39,30 +49,58 @@ export default function TargetPage() {
       console.error("Error fetching tasks:", error);
     }
   };
+  // Total task
+  const fetchCount = async () => {
+    try {
+      //get a reference
+      const taskRef = query(
+        collection(db, "task"),
+        where("account", "==", userEmail)
+      );
+      //run aggregrate query
+      const snapshot = await getCountFromServer(taskRef);
+      //fetch result from snapshot
+      count = snapshot.data().count;
+      setTotalTask(count);
+      console.log("Number of all task", count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // Done task
+  const fetchDoneCount = async () => {
+    try {
+      //get a reference
+      const taskRef = collection(db, "task");
+      //run aggregrate query
+      const querySnapshot = await getDocs(
+        query(taskRef, where("done", "==", 1))
+      );
+      //fetch result from snapshot
+      doneCount = querySnapshot.docs.length;
+      setDoneTask(doneCount);
+      console.log("Number of done task", doneCount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // refresh the to fetch new data
+  const updateTasks = async () => {
+    await fetchTasks();
+  };
 
   useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    fetchTasks()
-      .then(() => {
-        setRefreshing(false);
-      })
-      .catch((error) => {
-        console.error("Error during refresh:", error);
-        setRefreshing(false); // Ensure to set refreshing to false in case of an error
-      });
-  }, []);
+    const fetchData = async () => {
+      await fetchCount();
+      await fetchDoneCount();
+      await fetchTasks();
+    };
+    fetchData();
+  }, [getAuth().currentUser.email]);
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      style={tw`bg-white p-2 pt-10 flex-1`}
-    >
+    <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
       <View style={tw`flex-row justify-between items-center mx-5`}>
         <Text style={tw`font-bold text-xl my-3 `}>Your To-do Lists</Text>
         <TouchableOpacity
@@ -75,7 +113,13 @@ export default function TargetPage() {
       <View>
         <CustomCalendar />
       </View>
-      <Text style={tw`ml-6 font-bold text-lg`}>Task</Text>
+      <View style={tw`flex-row items-center justify-between mx-6 `}>
+        <Text style={tw`font-bold text-lg`}>Task</Text>
+        <Text style={tw`font-bold text-lg`}>
+          {doneTask}/{totalTask}
+        </Text>
+      </View>
+
       <View style={tw`h-[2px] bg-gray-100 mx-4 mt-1`}></View>
       {tasks &&
         tasks.map((task) => (
@@ -85,10 +129,19 @@ export default function TargetPage() {
             items={task.itemsValue}
             taskId={task.id}
             time={task.time}
+            updateTasks={updateTasks}
+            done={task.done}
+            fetchDoneCount={fetchDoneCount}
+            fetchCount={fetchCount}
           />
         ))}
 
-      <CreateTaskInputPage isModal={isModalVisible} closeModal={closeModal} />
+      <CreateTaskInputPage
+        isModal={isModalVisible}
+        closeModal={closeModal}
+        updateTasks={updateTasks}
+        fetchCount={fetchCount}
+      />
     </ScrollView>
   );
 }

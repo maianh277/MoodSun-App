@@ -33,7 +33,7 @@ const SignUp = () => {
 
       <LoginButton
         onLoginPress={() => navigation.navigate("Login")}
-        buttonText="Sigh Up"
+        buttonText="Sign Up"
       />
 
       <DividerText />

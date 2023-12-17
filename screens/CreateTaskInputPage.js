@@ -7,25 +7,47 @@ import DateTask from "../components/DateTask";
 import Reminder from "../components/Reminder";
 import CustomButtom from "../components/CustomButton";
 import tw from "twrnc";
-import { collection, addDoc, docRef } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 const { height, width } = Dimensions.get("window");
 import { db } from "../config/FirebaseConfig";
-export default function CreateTaskInputPage({ isModal, closeModal }) {
+import { getAuth } from "firebase/auth";
+
+export default function CreateTaskInputPage({
+  isModal,
+  closeModal,
+  updateTasks,
+  fetchCount,
+}) {
   if (!isModal) {
     return null;
   }
   const [taskName, setTaskName] = useState("");
   const [isEnabled, setIsEnabled] = useState(false);
   const [itemsValue, setItemsValue] = useState("");
+  const [account, setAccount] = useState("");
+  const [done, setDone] = useState(0);
+
+  // lấy user email để lưu khi tạo task
+  useEffect(() => {
+    const user = getAuth().currentUser;
+    if (user) {
+      setAccount(user.email);
+    }
+  }, []);
+  // create task
   const createTask = async () => {
     await addDoc(collection(db, "task"), {
       taskName: taskName,
       itemsValue: itemsValue,
       reminder: isEnabled,
+      account: account,
+      done: done,
     })
       .then(() => {
         console.log("Add data successful");
         closeModal();
+        updateTasks();
+        fetchCount();
       })
       .catch((error) => {
         console.log(error);

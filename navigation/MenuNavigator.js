@@ -4,7 +4,6 @@ import HomePage from "../screens/HomePage";
 import TargetPage from "../screens/TargetPage";
 import SettingsScreen from "../screens/Setting";
 import StatisticPage from "../screens/StatisticPage";
-import CreateTaskPage from "../screens/CreateTaskPage";
 import Menu from "../components/Menu";
 import CreateEmotion from "../screens/CreateEmotion";
 const Tab = createBottomTabNavigator();

@@ -20,7 +20,10 @@ export default function TargetPage() {
   const [tasks, setTasks] = useState([]);
   const [totalTask, setTotalTask] = useState(0);
   const [doneTask, setDoneTask] = useState(0);
-  //Take the current user's email
+  const [selectedDate, setSelectedDate] = useState("");
+  const [markedTaskDates, setMarkedTaskDates] = useState([]);
+
+  // Email người dùng hiện tại
   const userEmail = getAuth().currentUser.email;
 
   const openModal = () => {
@@ -31,14 +34,20 @@ export default function TargetPage() {
     setIsModalVisible(false);
   };
 
-  // fetch task depend on current user
+  // fetch task
   const fetchTasks = async () => {
     try {
+      const formattedDate = selectedDate.replace(/-/g, "/");
       const querySnapshot = await getDocs(
-        query(collection(db, "task"), where("account", "==", userEmail))
+        query(
+          collection(db, "task"),
+          where("account", "==", userEmail),
+          where("date", "==", formattedDate)
+        )
       );
       // console.log("Current logged in user:", userEmail);
       // console.log("Query result:", querySnapshot.docs);
+      console.log("selected day: ", selectedDate);
 
       const newTasks = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
@@ -97,7 +106,7 @@ export default function TargetPage() {
       await fetchTasks();
     };
     fetchData();
-  }, [getAuth().currentUser.email]);
+  }, [selectedDate]);
 
   return (
     <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
@@ -111,7 +120,12 @@ export default function TargetPage() {
         </TouchableOpacity>
       </View>
       <View>
-        <CustomCalendar />
+        <CustomCalendar
+          selected={selectedDate}
+          setSelected={setSelectedDate}
+          onDateSelect={(date) => setSelectedDate(date)}
+          markedTaskDates={markedTaskDates}
+        />
       </View>
       <View style={tw`flex-row items-center justify-between mx-6 `}>
         <Text style={tw`font-bold text-lg`}>Task</Text>
@@ -128,7 +142,7 @@ export default function TargetPage() {
             taskName={task.taskName}
             items={task.itemsValue}
             taskId={task.id}
-            time={task.time}
+            date={task.date}
             updateTasks={updateTasks}
             done={task.done}
             fetchDoneCount={fetchDoneCount}

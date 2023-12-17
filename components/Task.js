@@ -9,7 +9,7 @@ import { db } from "../config/FirebaseConfig";
 
 export default function Task({
   taskName,
-  time,
+  date,
   items,
   taskId,
   updateTasks,
@@ -33,6 +33,9 @@ export default function Task({
 
     setChecked(!checked);
   };
+  useEffect(() => {
+    setChecked(done === 1);
+  }, [done]);
 
   // delte task
   const deleteTask = async () => {
@@ -75,8 +78,8 @@ export default function Task({
                 tw`text-lg font-semibold`,
                 {
                   //khi check thì sẽ gạch task đó
-                  color: checked ? "#8F8F8F" : "#2D2D2D",
-                  textDecorationLine: checked ? "line-through" : "none",
+                  color: done === 1 ? "#8F8F8F" : "#2D2D2D",
+                  textDecorationLine: done === 1 ? "line-through" : "none",
                 },
               ]}
             >
@@ -88,12 +91,12 @@ export default function Task({
                 {
                   color: "#515070",
                   //khi check thì sẽ gạch task đó
-                  color: checked ? "#8F8F8F" : "#2D2D2D",
-                  textDecorationLine: checked ? "line-through" : "none",
+                  color: done === 1 ? "#8F8F8F" : "#2D2D2D",
+                  textDecorationLine: done === 1 ? "line-through" : "none",
                 },
               ]}
             >
-              {items} at {time}
+              {items} at {date}
             </Text>
           </View>
         </View>

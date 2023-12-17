@@ -5,21 +5,21 @@ import LoginButton from "../components/CustomButton";
 import tw from "twrnc";
 
 const ResetPasswordScreen = () => {
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const navigation = useNavigation();
   return (
     <View style={tw`mt-12 px-4 py-2 bg-white`}>
       <Text style={tw`text-3xl font-bold `}>Reset Password</Text>
       <Text style={tw`text-slate-400 mb-4`}>
-        Please input your phone to recover your password
+        Please input your email to recover your password 
       </Text>
 
       <TextInput
         style={tw`border border-gray-300 p-4 rounded mb-4`}
-        placeholder="Phone"
-        keyboardType="phone-pad"
-        onChangeText={setPhone}
-        value={phone}
+        placeholder="Email"
+        keyboardType="email-address"
+        onChangeText={setEmail}
+        value={email}
       />
       <LoginButton
         onLoginPress={() => navigation.navigate("ResetPassword2")}

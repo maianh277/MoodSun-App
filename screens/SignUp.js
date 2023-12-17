@@ -6,6 +6,8 @@ import SocialLoginOptions from "../components/SocialLoginOptions";
 import DividerText from "../components/DividerText";
 import LoginButton from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +16,22 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const navigation = useNavigation();
+
+  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    try {
+      const auth = getAuth();
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert('User created successfully!');
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <View style={tw`mt-12 px-4 py-2`}>
       <Text style={tw`text-3xl font-bold `}>Create an account</Text>
@@ -32,10 +50,9 @@ const SignUp = () => {
       />
 
       <LoginButton
-        onLoginPress={() => navigation.navigate("Login")}
+        onLoginPress={handleSignUp}
         buttonText="Sign Up"
       />
-
       <DividerText />
       <SocialLoginOptions />
     </View>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Dimensions, Modal } from "react-native";
+import { View, Dimensions, Modal, ScrollView } from "react-native";
 import CreateTaskTitle from "../components/CreateTaskTitle";
 import InputName from "../components/InputName";
 import TimeAndReminderTask from "../components/TimeAndReminderTask";
@@ -26,6 +26,7 @@ export default function CreateTaskInputPage({
   const [itemsValue, setItemsValue] = useState("");
   const [account, setAccount] = useState("");
   const [done, setDone] = useState(0);
+  const [date, setDate] = useState("");
 
   // lấy user email để lưu khi tạo task
   useEffect(() => {
@@ -42,6 +43,7 @@ export default function CreateTaskInputPage({
       reminder: isEnabled,
       account: account,
       done: done,
+      date: date,
     })
       .then(() => {
         console.log("Add data successful");
@@ -55,7 +57,7 @@ export default function CreateTaskInputPage({
   };
   return (
     <Modal visible={isModal} animationType="slide">
-      <View style={{ height, width, backgroundColor: "#F4EDE3" }}>
+      <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>
         <CreateTaskTitle onButtonPress={closeModal} />
         <InputName
           itemsValue={itemsValue}
@@ -71,8 +73,10 @@ export default function CreateTaskInputPage({
           <TimeAndReminderTask />
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
           <DateTask
-            function_name="Start Date"
-            icon_source={require("../assets/createTaskIcon/start_day.png")}
+            // function_name="Start Date"
+            // icon_source={require("../assets/createTaskIcon/start_day.png")}
+            selectedDate={date}
+            setSelectedDate={setDate}
           />
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
           <Reminder isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
@@ -80,7 +84,7 @@ export default function CreateTaskInputPage({
         <View style={tw`mx-5`}>
           <CustomButtom buttonText="Done" onLoginPress={createTask} />
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 }

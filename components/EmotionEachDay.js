@@ -2,7 +2,8 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { FontAwesome5 } from "@expo/vector-icons";
-export default function EmotionEachDay() {
+
+export default function EmotionEachDay({ date, emotionGeneralName }) {
   return (
     <View>
       <View
@@ -14,11 +15,11 @@ export default function EmotionEachDay() {
             source={require("../assets/emoji/normal.png")}
           />
           <Text style={[tw`text-lg font-bold`, { color: "#005B38" }]}>
-            Good
+            {emotionGeneralName}
           </Text>
         </View>
         <View style={tw`flex-row gap-4`}>
-          <Text style={tw`text-base`}>09:20</Text>
+          <Text style={tw`text-sm`}>{date}</Text>
           <FontAwesome5 name="chevron-right" size={20} color="#000" />
         </View>
       </View>

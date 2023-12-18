@@ -1,7 +1,7 @@
 import { View, Text, TextInput } from "react-native";
 import React from "react";
 import tw from "twrnc";
-export default function EmotionInput({ bgColor }) {
+export default function EmotionInput({ bgColor, value, onChangeText }) {
   return (
     <View>
       <View
@@ -11,6 +11,8 @@ export default function EmotionInput({ bgColor }) {
           What was it about?
         </Text>
         <TextInput
+          value={value}
+          onChangeText={onChangeText}
           placeholder="Write here"
           style={tw`m-5 p-5 rounded-lg bg-[#FFF4E4]`}
         />

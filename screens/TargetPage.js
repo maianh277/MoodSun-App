@@ -21,7 +21,6 @@ export default function TargetPage() {
   const [totalTask, setTotalTask] = useState(0);
   const [doneTask, setDoneTask] = useState(0);
   const [selectedDate, setSelectedDate] = useState("");
-  const [markedTaskDates, setMarkedTaskDates] = useState([]);
 
   // Email người dùng hiện tại
   const userEmail = getAuth().currentUser.email;
@@ -124,7 +123,6 @@ export default function TargetPage() {
           selected={selectedDate}
           setSelected={setSelectedDate}
           onDateSelect={(date) => setSelectedDate(date)}
-          markedTaskDates={markedTaskDates}
         />
       </View>
       <View style={tw`flex-row items-center justify-between mx-6 `}>

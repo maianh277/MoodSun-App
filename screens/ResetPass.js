@@ -1,12 +1,25 @@
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import LoginButton from "../components/CustomButton";
 import tw from "twrnc";
+import { auth, sendPasswordResetEmail } from '../config/FirebaseConfig'; 
 
 const ResetPasswordScreen = () => {
   const [email, setEmail] = useState("");
   const navigation = useNavigation();
+
+  const handleResetPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert('Kiểm tra email của bạn để thay đổi mật khẩu');
+        navigation.navigate("Login");
+      })
+      .catch(error => {
+        Alert.alert("Error", error.message);
+      });
+  };
+
   return (
     <View style={tw`mt-12 px-4 py-2 bg-white`}>
       <Text style={tw`text-3xl font-bold `}>Reset Password</Text>
@@ -21,8 +34,9 @@ const ResetPasswordScreen = () => {
         onChangeText={setEmail}
         value={email}
       />
+
       <LoginButton
-        onLoginPress={() => navigation.navigate("ResetPassword2")}
+        onLoginPress={handleResetPassword} // Sử dụng hàm handleResetPassword
         buttonText="Continue"
       />
 

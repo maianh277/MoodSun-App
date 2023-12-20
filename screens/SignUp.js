@@ -19,18 +19,33 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
-      alert("Passwords don't match!");
+      alert("Mật khẩu không khớp!");
       return;
     }
-
+  
     try {
       const auth = getAuth();
       await createUserWithEmailAndPassword(auth, email, password);
-      alert('User created successfully!');
+      alert('Tạo tài khoản thành công!');
     } catch (error) {
-      alert(error.message);
+      let errorMessage = '';
+      switch (error.code) {
+        case 'auth/invalid-email':
+          errorMessage = 'Email không hợp lệ.';
+          break;
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email đã được sử dụng.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Mật khẩu quá yếu.';
+          break;
+        default:
+          errorMessage = 'Đã có lỗi xảy ra: ' + error.message;
+      }
+      alert(errorMessage);
     }
   };
+  
 
   return (
     <View style={tw`mt-12 px-4 py-2`}>

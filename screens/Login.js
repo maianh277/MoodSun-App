@@ -24,18 +24,41 @@ const LoginScreen = () => {
     return unsubscribe;
   }, []);
   const handleLogin = () => {
-    if (!email || !password) {
-      alert("Please enter both email and password.");
+    if (!email && !password) {
+      alert("Vui lòng nhập cả email và mật khẩu.");
       return;
     }
-
+    if (!email) {
+      alert("Vui lòng nhập email.");
+      return;
+    }
+    if (!password) {
+      alert("Vui lòng nhập mật khẩu.");
+      return;
+    }
+  
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log(user.email);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        switch(error.code) {
+          case 'auth/user-not-found':
+            alert('Không tìm thấy người dùng với email này.');
+            break;
+          case 'auth/wrong-password':
+            alert('Mật khẩu không chính xác.');
+            break;
+          case 'auth/invalid-email':
+            alert('Email không hợp lệ.');
+            break;
+          default:
+            alert('Đã xảy ra lỗi: ' + error.message);
+        }
+      });
   };
+  
 
   return (
     <View style={tw` mt-12 px-4 py-2`}>

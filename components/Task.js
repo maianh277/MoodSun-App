@@ -54,7 +54,7 @@ export default function Task({
     return (
       <View style={tw`flex-row items-center justify-around`}>
         <TouchableOpacity style={tw`mr-5`} onPress={deleteTask}>
-          <Ionicons name="trash-outline" size={25} />
+          <Ionicons name="trash-outline" size={25} color={red} />
         </TouchableOpacity>
       </View>
     );

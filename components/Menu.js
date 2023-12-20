@@ -28,7 +28,6 @@ export default function Menu({ state, navigation }) {
         return "home";
     }
   };
-
   const onPress = (routeName) => {
     if (routeName === "CreateEmotion") {
       navigation.navigate(routeName, { isModal: true });
@@ -39,7 +38,7 @@ export default function Menu({ state, navigation }) {
 
   return (
     <View
-      style={tw`flex-row justify-around items-center bg-[#F4EDE3] w-full h-20`}
+      style={tw`flex-row justify-around items-center bg-[#F4EDE3] w-full h-20 `}
     >
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;

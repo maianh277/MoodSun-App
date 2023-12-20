@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, Image, Switch } from 'react-native';
-import tw from 'twrnc';
+import React, { useState } from "react";
+import { View, Text, Image, Switch } from "react-native";
+import tw from "twrnc";
 
 const CustomizationComponent = () => {
   const [passwordLockEnabled, setPasswordLockEnabled] = useState(false);
@@ -18,10 +18,12 @@ const CustomizationComponent = () => {
     <View>
       <Text style={tw`mt-4 text-xl font-bold p-2`}>Customization</Text>
       <View>
-        
-        <View style={tw` border-b border-gray-200`}>
+        {/* <View style={tw` border-b border-gray-200`}>
           <View style={tw`flex-row items-center pl-2`}>
-            <Image style={tw`h-5 w-5`} source={require('../assets/createTaskIcon/locked.png')} />
+            <Image
+              style={tw`h-5 w-5`}
+              source={require("../assets/createTaskIcon/locked.png")}
+            />
             <Text style={tw`text-lg ml-4`}>Password Lock</Text>
             <Switch
               trackColor={{ false: "#767577", true: "#ffbc5d" }}
@@ -32,11 +34,13 @@ const CustomizationComponent = () => {
               style={tw`ml-auto`}
             />
           </View>
-        </View>
+        </View> */}
 
-        
         <View style={tw`flex-row items-center p-2`}>
-          <Image style={tw`h-5 w-5`} source={require('../assets/createTaskIcon/messenger.png')} />
+          <Image
+            style={tw`h-5 w-5`}
+            source={require("../assets/createTaskIcon/messenger.png")}
+          />
           <Text style={tw`text-lg ml-4`}>Daily Reminder</Text>
           <Switch
             trackColor={{ false: "#767577", true: "#ffbc5d" }}
@@ -44,7 +48,7 @@ const CustomizationComponent = () => {
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleDailyReminderSwitch}
             value={dailyReminderEnabled}
-            style={tw`ml-auto`} 
+            style={tw`ml-auto`}
           />
         </View>
       </View>

@@ -93,7 +93,7 @@ const LoginScreen = () => {
       </View>
       <DividerText />
       <SocialLoginOptions />
-      <View style={tw`flex-row justify-center mb-4 mt-4`}>
+      <View style={tw`flex-row justify-center mb-2 mt-4`}>
         <Text>Don't have an account?</Text>
         <Text onPress={() => navigation.navigate("Signup")}>Sign up</Text>
       </View>

@@ -4,8 +4,13 @@ import { useState } from "react";
 import { Calendar } from "react-native-calendars";
 import tw from "twrnc";
 
-export default function CustomCalendar() {
-  const [selected, setSelected] = useState("");
+export default function CustomCalendar({
+  selected,
+  setSelected,
+  onDateSelect,
+}) {
+  // const [selected, setSelected] = useState("");
+
   return (
     <View>
       <Calendar
@@ -22,7 +27,9 @@ export default function CustomCalendar() {
         }}
         onDayPress={(day) => {
           setSelected(day.dateString);
+          onDateSelect(day.dateString);
         }}
+        // onDayPress={onDayPress}
         markedDates={{
           [selected]: {
             selected: true,

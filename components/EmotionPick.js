@@ -1,7 +1,15 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import tw from "twrnc";
-export default function EmotionPick({ bgColor }) {
+
+export default function EmotionPick({ bgColor, onEmotionSelected }) {
+  const [selectedEmotion, setSelectedEmotion] = useState(null);
+
+  const handleSelectedEmotion = (emotion) => {
+    setSelectedEmotion(emotion);
+    onEmotionSelected(emotion);
+  };
+
   return (
     <View>
       <View
@@ -9,26 +17,57 @@ export default function EmotionPick({ bgColor }) {
       >
         <Text style={tw`text-center font-bold text-lg`}>How was your day?</Text>
         <View style={tw`flex-row justify-center`}>
-          <Image
-            style={tw`h-16 w-16`}
-            source={require("../assets/emoji/happy.png")}
-          />
-          <Image
-            style={tw`h-16 w-16`}
-            source={require("../assets/emoji/normal.png")}
-          />
-          <Image
-            style={tw`h-16 w-16`}
-            source={require("../assets/emoji/sad.png")}
-          />
-          <Image
-            style={tw`h-16 w-16`}
-            source={require("../assets/emoji/cry.png")}
-          />
-          <Image
-            style={tw`h-16 w-16`}
-            source={require("../assets/emoji/angry.png")}
-          />
+          <TouchableOpacity onPress={() => handleSelectedEmotion("happy")}>
+            <Image
+              style={[
+                tw`h-16 w-16`,
+                selectedEmotion === "happy"
+                  ? tw`bg-orange-100 rounded-lg`
+                  : null,
+              ]}
+              source={require("../assets/emoji/happy.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSelectedEmotion("normal")}>
+            <Image
+              style={[
+                tw`h-16 w-16`,
+                selectedEmotion === "normal"
+                  ? tw`bg-orange-100 rounded-lg`
+                  : null,
+              ]}
+              source={require("../assets/emoji/normal.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSelectedEmotion("sad")}>
+            <Image
+              style={[
+                tw`h-16 w-16`,
+                selectedEmotion === "sad" ? tw`bg-orange-100 rounded-lg` : null,
+              ]}
+              source={require("../assets/emoji/sad.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSelectedEmotion("cry")}>
+            <Image
+              style={[
+                tw`h-16 w-16`,
+                selectedEmotion === "cry" ? tw`bg-orange-100 rounded-lg` : null,
+              ]}
+              source={require("../assets/emoji/cry.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleSelectedEmotion("angry")}>
+            <Image
+              style={[
+                tw`h-16 w-16`,
+                selectedEmotion === "angry"
+                  ? tw`bg-orange-100 rounded-lg`
+                  : null,
+              ]}
+              source={require("../assets/emoji/angry.png")}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

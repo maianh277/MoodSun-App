@@ -36,21 +36,21 @@ export default function AppNavigator() {
         component={StatisticPage}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ResetSucessful"
         component={ResetSucessful}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Stack.Screen
         name="ResetPassword"
         component={ResetPass}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="ResetPassword2"
         component={ResetPass2}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Stack.Screen
         name="Login"
         component={Login}

@@ -36,29 +36,28 @@ const LoginScreen = () => {
       alert("Vui lòng nhập mật khẩu.");
       return;
     }
-  
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log(user.email);
       })
       .catch((error) => {
-        switch(error.code) {
-          case 'auth/user-not-found':
-            alert('Không tìm thấy người dùng với email này.');
+        switch (error.code) {
+          case "auth/user-not-found":
+            alert("Không tìm thấy người dùng với email này.");
             break;
-          case 'auth/wrong-password':
-            alert('Mật khẩu không chính xác.');
+          case "auth/wrong-password":
+            alert("Mật khẩu không chính xác.");
             break;
-          case 'auth/invalid-email':
-            alert('Email không hợp lệ.');
+          case "auth/invalid-email":
+            alert("Email không hợp lệ.");
             break;
           default:
-            alert('Đã xảy ra lỗi: ' + error.message);
+            alert("Đã xảy ra lỗi: " + error.message);
         }
       });
   };
-  
 
   return (
     <View style={tw` mt-12 px-4 py-2`}>
@@ -94,8 +93,13 @@ const LoginScreen = () => {
       <DividerText />
       <SocialLoginOptions />
       <View style={tw`flex-row justify-center mb-2 mt-4`}>
-        <Text>Don't have an account?</Text>
-        <Text onPress={() => navigation.navigate("Signup")}>Sign up</Text>
+        <Text>Don't have an account? </Text>
+        <Text
+          style={tw`underline text-blue-500`}
+          onPress={() => navigation.navigate("Signup")}
+        >
+          Sign up
+        </Text>
       </View>
     </View>
   );

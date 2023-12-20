@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import Account from "../components/Account";
 import Customization from "../components/Customization";
@@ -42,7 +42,16 @@ const SettingsScreen = () => {
       <Account />
       <Customization isEnabled={isEnabled} toggleSwitch={toggleSwitch} />
       <ServiceCenter />
-      {email ? <Text onPress={handleLogout}>Log out</Text> : ""}
+      {email ? (
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={tw`mt-3 items-center bg-[#FF9560] p-3 mx-20 rounded-lg`}
+        >
+          <Text style={tw`text-lg font-semibold text-white`}>Log out</Text>
+        </TouchableOpacity>
+      ) : (
+        ""
+      )}
     </View>
   );
 };

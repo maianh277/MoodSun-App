@@ -13,8 +13,8 @@ const { height, width } = Dimensions.get("window");
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth";
-
-export default function CreateEmotion({ navigation, route, fetchEmotion }) {
+// import ImagePicker from "react-native-image-crop-picker";
+export default function CreateEmotion({ navigation, route }) {
   const { isModal } = route.params || {};
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
@@ -22,11 +22,11 @@ export default function CreateEmotion({ navigation, route, fetchEmotion }) {
   const [emotionDetail, setEmotionDetail] = useState("");
   const [acquaintance, setAcquaintance] = useState("");
   const [content, setContent] = useState("");
-  const [currentDate, setCurrentDate] = useState(new Date());
   const [account, setAccount] = useState("");
   const closeModal = () => {
     navigation.navigate("CreateEmotion", { isModal: false });
   };
+
   // chon emotion general
   const handleSelectedEmotion = (emotion) => {
     setEmotionGeneral(emotion);
@@ -51,32 +51,44 @@ export default function CreateEmotion({ navigation, route, fetchEmotion }) {
   };
 
   const createEmotion = async () => {
+    const formattedDate = selectedDate.toLocaleString();
     await addDoc(collection(db, "emotion"), {
       emotionGeneral: {
         name: emotionGeneral,
-        path: `../assets/emoji/${emotionGeneral}.png`,
+        // path: `../assets/emoji/${emotionGeneral}.png`,
       },
       emotionDetail: {
         name: emotionDetail,
-        path: `../assets/emoji/${emotionDetail}.png`,
+        // path: `../assets/emoji/${emotionDetail}.png`,
       },
       acquaintance: {
         name: acquaintance,
-        path: `../assets/emoji/${acquaintance}.png`,
+        // path: `../assets/emoji/${acquaintance}.png`,
       },
       content: content,
-      date: selectedDate,
+      date: formattedDate,
+      // time: formattedTime,
       account: account,
     })
       .then(() => {
+        console.log(formattedDate);
         console.log("Add data successful");
-        fetchEmotion();
         closeModal();
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  // const selectImageFromGallery = () => {
+  //   ImagePicker.openPicker({
+  //     width: 300,
+  //     height: 400,
+  //     cropping: true,
+  //   }).then((image) => {
+  //     console.log(image);
+  //   });
+  // };
   return (
     <Modal visible={isModal} animationType="slide" transparent={true}>
       <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>
@@ -86,10 +98,7 @@ export default function CreateEmotion({ navigation, route, fetchEmotion }) {
               style={tw`text-lg font-bold`}
               onPress={() => setShowDatePicker(true)}
             >
-              Date{" "}
-              {selectedDate
-                ? selectedDate.toLocaleString()
-                : currentDate.toLocaleString()}
+              Date {selectedDate ? selectedDate : new Date().toLocaleString()}
             </Text>
             <Ionicons
               name="close-outline"
@@ -100,6 +109,7 @@ export default function CreateEmotion({ navigation, route, fetchEmotion }) {
           </View>
           {showDatePicker && (
             <DatePicker
+              mode="calendar"
               onSelectedChange={onDateChange}
               initial={selectedDate}
             />
@@ -123,7 +133,10 @@ export default function CreateEmotion({ navigation, route, fetchEmotion }) {
               setContent(content);
             }}
           />
-          <UploadMemories bgColor="#FEFDFB" />
+          <UploadMemories
+            bgColor="#FEFDFB"
+            // selectImageFromGallery={selectImageFromGallery}
+          />
           <View style={tw`mx-5`}>
             <CustomButton buttonText="Done" onLoginPress={createEmotion} />
           </View>

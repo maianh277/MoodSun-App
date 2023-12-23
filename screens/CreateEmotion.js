@@ -11,9 +11,10 @@ import CustomButton from "../components/CustomButton";
 import DatePicker from "react-native-modern-datepicker";
 const { height, width } = Dimensions.get("window");
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../config/FirebaseConfig";
+import { db, storage } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth";
-// import ImagePicker from "react-native-image-crop-picker";
+import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+
 export default function CreateEmotion({ navigation, route }) {
   const { isModal } = route.params || {};
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -23,10 +24,10 @@ export default function CreateEmotion({ navigation, route }) {
   const [acquaintance, setAcquaintance] = useState("");
   const [content, setContent] = useState("");
   const [account, setAccount] = useState("");
+  const [image, setImage] = useState(null);
   const closeModal = () => {
     navigation.navigate("CreateEmotion", { isModal: false });
   };
-
   // chon emotion general
   const handleSelectedEmotion = (emotion) => {
     setEmotionGeneral(emotion);
@@ -51,24 +52,23 @@ export default function CreateEmotion({ navigation, route }) {
   };
 
   const createEmotion = async () => {
-    const formattedDate = selectedDate.toLocaleString();
+    const formattedDate = selectedDate
+      ? selectedDate.toLocaleString()
+      : new Date().toISOString().split("T")[0].replace(/-/g, "/");
     await addDoc(collection(db, "emotion"), {
       emotionGeneral: {
         name: emotionGeneral,
-        // path: `../assets/emoji/${emotionGeneral}.png`,
       },
       emotionDetail: {
         name: emotionDetail,
-        // path: `../assets/emoji/${emotionDetail}.png`,
       },
       acquaintance: {
         name: acquaintance,
-        // path: `../assets/emoji/${acquaintance}.png`,
       },
       content: content,
       date: formattedDate,
-      // time: formattedTime,
       account: account,
+      memories: image,
     })
       .then(() => {
         console.log(formattedDate);
@@ -79,16 +79,33 @@ export default function CreateEmotion({ navigation, route }) {
         console.log(error);
       });
   };
+  const uploadImageAsync = async (uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
 
-  // const selectImageFromGallery = () => {
-  //   ImagePicker.openPicker({
-  //     width: 300,
-  //     height: 400,
-  //     cropping: true,
-  //   }).then((image) => {
-  //     console.log(image);
-  //   });
-  // };
+    try {
+      const storageRef = ref(storage, `Images/image-${Date.now()}`);
+      const result = await uploadBytes(storageRef, blob);
+
+      blob.close();
+
+      return await getDownloadURL(storageRef);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal visible={isModal} animationType="slide" transparent={true}>
       <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>
@@ -98,7 +115,10 @@ export default function CreateEmotion({ navigation, route }) {
               style={tw`text-lg font-bold`}
               onPress={() => setShowDatePicker(true)}
             >
-              Date {selectedDate ? selectedDate : new Date().toLocaleString()}
+              Date{" "}
+              {selectedDate
+                ? selectedDate
+                : new Date().toISOString().split("T")[0].replace(/-/g, "/")}
             </Text>
             <Ionicons
               name="close-outline"
@@ -133,9 +153,12 @@ export default function CreateEmotion({ navigation, route }) {
               setContent(content);
             }}
           />
+
           <UploadMemories
             bgColor="#FEFDFB"
-            // selectImageFromGallery={selectImageFromGallery}
+            uploadImageAsync={uploadImageAsync}
+            image={image}
+            setImage={setImage}
           />
           <View style={tw`mx-5`}>
             <CustomButton buttonText="Done" onLoginPress={createEmotion} />

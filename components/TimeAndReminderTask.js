@@ -1,8 +1,11 @@
+import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
-import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import RNPickerSelect from "react-native-picker-select";
 import tw from "twrnc";
+
 export default function TimeAndReminderTask() {
+  const [repeatValue, setRepeatValue] = useState("");
+
   return (
     <View>
       <View>
@@ -14,14 +17,16 @@ export default function TimeAndReminderTask() {
             />
             <Text style={tw`text-base`}>Repeat</Text>
           </View>
-          <View style={tw`flex-row items-center gap-2`}>
-            <Text style={tw`font-semibold text-base`}>Everyday</Text>
-            <Ionicons
-              name="chevron-forward-outline"
-              size={24}
-              style={tw`ml-[20px]`}
-            />
-          </View>
+          <RNPickerSelect
+            useNativeAndroidPickerStyle={false}
+            value={repeatValue}
+            onValueChange={(value) => setRepeatValue(value)}
+            items={[
+              { label: "None", value: "None" },
+              { label: "Weekly", value: "Weekly" },
+              { label: "Monthly", value: "Monthly" },
+            ]}
+          />
         </View>
       </View>
     </View>

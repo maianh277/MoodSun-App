@@ -33,8 +33,8 @@ export default function TargetPage() {
   const closeModal = () => {
     setIsModalVisible(false);
   };
-  const formattedDate = selectedDate.replace(/-/g, "/");
 
+  const formattedDate = selectedDate.replace(/-/g, "/");
   // fetch task
   const fetchTasks = async () => {
     try {
@@ -67,7 +67,9 @@ export default function TargetPage() {
         ...doc.data(),
         id: doc.id,
       }));
-      const allDates = newTasks.map((task) => task.date.replace(/\//g, "-"));
+      const allDates = newTasks.map((emotion) =>
+        emotion.date.replace(/\//g, "-")
+      );
       setAllTaskDate(allDates);
       console.log(allDates);
     } catch (error) {
@@ -96,14 +98,15 @@ export default function TargetPage() {
   const fetchDoneCount = async () => {
     try {
       const taskRef = collection(db, "task");
-      //run aggregrate query
       const querySnapshot = await getDocs(
-        query(taskRef, where("done", "==", 1)),
-        where("date", "==", formattedDate)
+        query(
+          taskRef,
+          where("done", "==", 1),
+          where("date", "==", formattedDate)
+        )
       );
       const doneCount = querySnapshot.docs.length;
       setDoneTask(doneCount);
-      // console.log("Number of done task", doneCount);
     } catch (error) {
       console.log(error);
     }

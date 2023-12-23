@@ -56,7 +56,8 @@ export default function CustomCalendar({
           [selected]: {
             selected: true,
             disableTouchEvent: true,
-            selectedDotColor: "orange",
+            marking: true,
+            selectedDotColor: "white",
           },
         }}
         // markedDates={markedDates}

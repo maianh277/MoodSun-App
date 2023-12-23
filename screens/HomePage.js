@@ -4,7 +4,6 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Button,
   Image,
 } from "react-native";
 import React from "react";
@@ -31,6 +30,7 @@ export default function HomePage() {
   const [expandedId, setExpandedId] = useState(null);
   const [emotions, setEmotions] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [allTaskDate, setAllTaskDate] = useState([]);
   const [newContent, setNewContent] = useState("");
   const userEmail = getAuth().currentUser.email;
 
@@ -56,13 +56,34 @@ export default function HomePage() {
     }
   };
 
+  const fetchTasksDate = async () => {
+    try {
+      const querySnapshot = await getDocs(
+        query(collection(db, "emotion"), where("account", "==", userEmail))
+      );
+
+      const newTasks = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const allDates = newTasks.map((emotion) =>
+        emotion.date.replace(/\//g, "-")
+      );
+      setAllTaskDate(allDates);
+      console.log(allDates);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
   const updateEmotion = async () => {
     await fetchEmotion();
+    await fetchTasksDate();
   };
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchEmotion();
+      await fetchTasksDate();
     };
     fetchData();
   }, [selectedDate]);
@@ -102,6 +123,8 @@ export default function HomePage() {
           selected={selectedDate}
           setSelected={setSelectedDate}
           onDateSelect={(date) => setSelectedDate(date)}
+          allTaskDate={allTaskDate}
+          fetchTasksDate={fetchTasksDate}
         />
       </View>
       <Text style={tw`ml-6 font-bold text-xl mt-2`}>You were ...</Text>
@@ -166,8 +189,13 @@ export default function HomePage() {
                     </TouchableOpacity>
                   </View>
                 ) : (
-                  <Text>{emotion.content}</Text>
+                  <Text style={tw`px-3 py-4`}>{emotion.content}</Text>
                 )}
+
+                <Image
+                  source={{ uri: emotion.memories }}
+                  style={tw`w-[200px] h-[200px] m-auto`}
+                />
               </View>
             </Collapsible>
           </View>

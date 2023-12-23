@@ -6,7 +6,8 @@ import { Swipeable } from "react-native-gesture-handler";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
 import { emotionsImages } from "../path/images";
-
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "../config/FirebaseConfig";
 export default function EmotionEachDay({
   date,
   emotionGeneralName,
@@ -15,11 +16,23 @@ export default function EmotionEachDay({
   id,
   color,
 }) {
+  const deleteImage = async () => {
+    const imagePath = String(image);
+    const deleteRef = ref(storage, imagePath);
+    try {
+      await deleteObject(deleteRef);
+      setImage(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deleteEmotion = async () => {
     try {
       await deleteDoc(doc(db, "emotion", id));
+      await updateEmotion();
+      await deleteImage();
       console.log("Emotion deleted successfully");
-      updateEmotion();
     } catch (error) {
       console.error("Error deleting task:", error);
     }

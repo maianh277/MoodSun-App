@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
-export default function UploadMemories({ bgColor, selectImageFromGallery }) {
+export default function UploadMemories({ bgColor }) {
   return (
     <View>
       <View

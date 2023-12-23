@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import CustomCalendar from "../components/CustomCalendar";
 import tw from "twrnc";
@@ -20,6 +20,7 @@ export default function TargetPage() {
   const [tasks, setTasks] = useState([]);
   const [totalTask, setTotalTask] = useState(0);
   const [doneTask, setDoneTask] = useState(0);
+  const [allTaskDate, setAllTaskDate] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
 
   // Email người dùng hiện tại
@@ -32,11 +33,11 @@ export default function TargetPage() {
   const closeModal = () => {
     setIsModalVisible(false);
   };
+  const formattedDate = selectedDate.replace(/-/g, "/");
 
   // fetch task
   const fetchTasks = async () => {
     try {
-      const formattedDate = selectedDate.replace(/-/g, "/");
       const querySnapshot = await getDocs(
         query(
           collection(db, "task"),
@@ -44,9 +45,6 @@ export default function TargetPage() {
           where("date", "==", formattedDate)
         )
       );
-      // console.log("Current logged in user:", userEmail);
-      // console.log("Query result:", querySnapshot.docs);
-      console.log("selected day: ", selectedDate);
 
       const newTasks = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
@@ -57,37 +55,55 @@ export default function TargetPage() {
       console.error("Error fetching tasks:", error);
     }
   };
+
+  //Check những ngày có task
+  const fetchTasksDate = async () => {
+    try {
+      const querySnapshot = await getDocs(
+        query(collection(db, "task"), where("account", "==", userEmail))
+      );
+
+      const newTasks = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const allDates = newTasks.map((task) => task.date.replace(/\//g, "-"));
+      setAllTaskDate(allDates);
+      console.log(allDates);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
   // Total task
   const fetchCount = async () => {
     try {
-      //get a reference
       const taskRef = query(
         collection(db, "task"),
-        where("account", "==", userEmail)
+        where("account", "==", userEmail),
+        where("date", "==", formattedDate)
       );
-      //run aggregrate query
       const snapshot = await getCountFromServer(taskRef);
-      //fetch result from snapshot
-      count = snapshot.data().count;
+      const count = snapshot.data().count;
       setTotalTask(count);
-      console.log("Number of all task", count);
+      // console.log("Number of all task", count);
     } catch (error) {
       console.log(error);
     }
   };
+
   // Done task
   const fetchDoneCount = async () => {
     try {
-      //get a reference
       const taskRef = collection(db, "task");
       //run aggregrate query
       const querySnapshot = await getDocs(
-        query(taskRef, where("done", "==", 1))
+        query(taskRef, where("done", "==", 1)),
+        where("date", "==", formattedDate)
       );
-      //fetch result from snapshot
-      doneCount = querySnapshot.docs.length;
+      const doneCount = querySnapshot.docs.length;
       setDoneTask(doneCount);
-      console.log("Number of done task", doneCount);
+      // console.log("Number of done task", doneCount);
     } catch (error) {
       console.log(error);
     }
@@ -95,6 +111,7 @@ export default function TargetPage() {
 
   // refresh the to fetch new data
   const updateTasks = async () => {
+    await fetchTasksDate();
     await fetchTasks();
   };
 
@@ -123,6 +140,8 @@ export default function TargetPage() {
           selected={selectedDate}
           setSelected={setSelectedDate}
           onDateSelect={(date) => setSelectedDate(date)}
+          allTaskDate={allTaskDate}
+          fetchTasksDate={fetchTasksDate}
         />
       </View>
       <View style={tw`flex-row items-center justify-between mx-6 `}>
@@ -153,6 +172,8 @@ export default function TargetPage() {
         closeModal={closeModal}
         updateTasks={updateTasks}
         fetchCount={fetchCount}
+        allTaskDate={allTaskDate}
+        setAllTaskDate={setAllTaskDate}
       />
     </ScrollView>
   );

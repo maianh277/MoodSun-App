@@ -5,8 +5,6 @@ import TargetPage from "../screens/TargetPage";
 import Login from "../screens/Login";
 import PassLock from "../screens/PassLock";
 import ResetPass from "../screens/ResetPass";
-import ResetPass2 from "../screens/ResetPass2";
-import ResetSucessful from "../screens/ResetSucessful";
 import { createStackNavigator } from "@react-navigation/stack";
 import MenuNavigator from "./MenuNavigator";
 import StatisticPage from "../screens/StatisticPage";
@@ -36,21 +34,11 @@ export default function AppNavigator() {
         component={StatisticPage}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
-        name="ResetSucessful"
-        component={ResetSucessful}
-        options={{ headerShown: false }}
-      /> */}
       <Stack.Screen
         name="ResetPassword"
         component={ResetPass}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
-        name="ResetPassword2"
-        component={ResetPass2}
-        options={{ headerShown: false }}
-      /> */}
       <Stack.Screen
         name="Login"
         component={Login}

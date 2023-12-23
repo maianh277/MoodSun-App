@@ -37,7 +37,6 @@ export default function Task({
     setChecked(done === 1);
   }, [done]);
 
-  // delte task
   const deleteTask = async () => {
     try {
       await deleteDoc(doc(db, "task", taskId));
@@ -49,12 +48,11 @@ export default function Task({
       console.error("Error deleting task:", error);
     }
   };
-
   const RightActions = () => {
     return (
       <View style={tw`flex-row items-center justify-around`}>
         <TouchableOpacity style={tw`mr-5`} onPress={deleteTask}>
-          <Ionicons name="trash-outline" size={25} color={red} />
+          <Ionicons name="trash-outline" size={25} />
         </TouchableOpacity>
       </View>
     );
@@ -77,7 +75,6 @@ export default function Task({
               style={[
                 tw`text-lg font-semibold`,
                 {
-                  //khi check thì sẽ gạch task đó
                   color: done === 1 ? "#8F8F8F" : "#2D2D2D",
                   textDecorationLine: done === 1 ? "line-through" : "none",
                 },
@@ -90,7 +87,6 @@ export default function Task({
                 tw`text-sm`,
                 {
                   color: "#515070",
-                  //khi check thì sẽ gạch task đó
                   color: done === 1 ? "#8F8F8F" : "#2D2D2D",
                   textDecorationLine: done === 1 ? "line-through" : "none",
                 },

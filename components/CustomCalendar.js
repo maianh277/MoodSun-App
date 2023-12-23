@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { Calendar } from "react-native-calendars";
 import tw from "twrnc";
 
@@ -8,8 +8,30 @@ export default function CustomCalendar({
   selected,
   setSelected,
   onDateSelect,
+  allTaskDate,
+  fetchTasksDate,
 }) {
-  // const [selected, setSelected] = useState("");
+  const [markedDates, setMarkedDates] = useState({});
+  const [dataFetched, setDataFetched] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchTasksDate();
+      setDataFetched(true);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (dataFetched) {
+      const marked = {};
+      allTaskDate?.forEach((date) => {
+        marked[date] = { marked: true, dotColor: "orange" };
+      });
+      setMarkedDates(marked);
+    }
+  }, [dataFetched, allTaskDate]);
 
   return (
     <View>
@@ -29,14 +51,15 @@ export default function CustomCalendar({
           setSelected(day.dateString);
           onDateSelect(day.dateString);
         }}
-        // onDayPress={onDayPress}
         markedDates={{
+          ...markedDates,
           [selected]: {
             selected: true,
             disableTouchEvent: true,
             selectedDotColor: "orange",
           },
         }}
+        // markedDates={markedDates}
       />
     </View>
   );

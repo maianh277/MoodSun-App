@@ -34,7 +34,7 @@ export default function HomePage() {
   const [newContent, setNewContent] = useState("");
   const userEmail = getAuth().currentUser.email;
 
-  // fetch task
+  // fetch emotion
   const fetchEmotion = async () => {
     try {
       const formattedDate = selectedDate.replace(/-/g, "/");
@@ -49,11 +49,10 @@ export default function HomePage() {
       const newEmotion = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
-        iconPath: doc.data().emotionGeneral.path,
       }));
       setEmotions(newEmotion);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.error("Error fetching emotion:", error);
     }
   };
 

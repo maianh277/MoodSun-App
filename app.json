@@ -7,9 +7,12 @@
     "userInterfaceStyle": "light",
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.manh277.myapp"
     },
-    "android": {},
+    "android": {
+      "package": "com.manh277.myapp"
+    },
     "web": {},
     "expo": {
       "plugins": [
@@ -20,6 +23,11 @@
           }
         ]
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "506f003b-af5b-4ba9-8e7c-c57e79d767c8"
+      }
     }
   }
 }

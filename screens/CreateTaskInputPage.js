@@ -72,12 +72,7 @@ export default function CreateTaskInputPage({
         <View style={tw`bg-white mt-3 mx-5 rounded-lg mb-4`}>
           <TimeAndReminderTask />
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
-          <DateTask
-            // function_name="Start Date"
-            // icon_source={require("../assets/createTaskIcon/start_day.png")}
-            selectedDate={date}
-            setSelectedDate={setDate}
-          />
+          <DateTask selectedDate={date} setSelectedDate={setDate} />
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
           <Reminder isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
         </View>

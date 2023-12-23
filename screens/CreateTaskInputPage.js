@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Dimensions, Modal, ScrollView } from "react-native";
 import CreateTaskTitle from "../components/CreateTaskTitle";
 import InputName from "../components/InputName";
-import TimeAndReminderTask from "../components/TimeAndReminderTask";
 import DateTask from "../components/DateTask";
 import Reminder from "../components/Reminder";
 import CustomButtom from "../components/CustomButton";
@@ -27,7 +26,6 @@ export default function CreateTaskInputPage({
   const [account, setAccount] = useState("");
   const [done, setDone] = useState(0);
   const [date, setDate] = useState("");
-
   // lấy user email để lưu khi tạo task
   useEffect(() => {
     const user = getAuth().currentUser;
@@ -70,7 +68,7 @@ export default function CreateTaskInputPage({
           }}
         />
         <View style={tw`bg-white mt-3 mx-5 rounded-lg mb-4`}>
-          <TimeAndReminderTask />
+          {/* <TimeAndReminderTask /> */}
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
           <DateTask selectedDate={date} setSelectedDate={setDate} />
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>

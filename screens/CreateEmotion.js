@@ -25,6 +25,7 @@ export default function CreateEmotion({ navigation, route }) {
   const [content, setContent] = useState("");
   const [account, setAccount] = useState("");
   const [image, setImage] = useState(null);
+  // const [time, setTime] = useState("");
   const closeModal = () => {
     navigation.navigate("CreateEmotion", { isModal: false });
   };
@@ -50,8 +51,20 @@ export default function CreateEmotion({ navigation, route }) {
     setSelectedDate(date);
     setShowDatePicker(false);
   };
+  const formatTime = () => {
+    const timeStamp = Date.now();
+    const date = new Date(timeStamp);
+
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+
+    const formattedTime = hour + ":" + minute.toString().padStart(2, "0");
+    console.log(formattedTime);
+    return formattedTime;
+  };
 
   const createEmotion = async () => {
+    const formattedTime = formatTime();
     const formattedDate = selectedDate
       ? selectedDate.toLocaleString()
       : new Date().toISOString().split("T")[0].replace(/-/g, "/");
@@ -69,6 +82,7 @@ export default function CreateEmotion({ navigation, route }) {
       date: formattedDate,
       account: account,
       memories: image,
+      time: formattedTime,
     })
       .then(() => {
         console.log(formattedDate);
@@ -105,7 +119,17 @@ export default function CreateEmotion({ navigation, route }) {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    if (!isModal) {
+      setSelectedDate("");
+      setEmotionGeneral("");
+      setEmotionDetail("");
+      setAcquaintance("");
+      setContent("");
+      setAccount("");
+      setImage(null);
+    }
+  }, [isModal]);
   return (
     <Modal visible={isModal} animationType="slide" transparent={true}>
       <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>

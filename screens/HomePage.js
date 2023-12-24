@@ -32,6 +32,7 @@ export default function HomePage() {
   const [editMode, setEditMode] = useState(false);
   const [allTaskDate, setAllTaskDate] = useState([]);
   const [newContent, setNewContent] = useState("");
+  const [time, setTime] = useState("");
   const userEmail = getAuth().currentUser.email;
 
   // fetch emotion
@@ -142,6 +143,8 @@ export default function HomePage() {
                   emotion.emotionGeneral ? emotion.emotionGeneral.name : ""
                 }
                 color={emotionColors[emotion.emotionGeneral.name] || "#FFF"}
+                image={emotion.memories}
+                time={emotion.time}
               />
             </TouchableOpacity>
 

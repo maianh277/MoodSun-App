@@ -17,7 +17,6 @@ export default function UploadMemories({
       aspect: [4, 3],
       quality: 1,
     });
-
     delete result.cancelled;
 
     console.log(result);
@@ -28,16 +27,16 @@ export default function UploadMemories({
     }
   };
 
-  // const deleteImage = async () => {
-  //   const deleteRef = ref(storage, image);
-  //   try {
-  //     deleteObject(deleteRef).then(() => {
-  //       setImage(null);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const deleteImage = async () => {
+    const deleteRef = ref(storage, image);
+    try {
+      deleteObject(deleteRef).then(() => {
+        setImage(null);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View>
@@ -55,14 +54,14 @@ export default function UploadMemories({
                 source={{ uri: image }}
                 style={{ width: 300, height: 300 }}
               />
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 style={tw`bg-[#ffbc5d] mt-3 p-3 rounded-lg mx-20`}
                 onPress={deleteImage}
               >
                 <Text style={tw`text-white text-center font-bold`}>
                   Delete image
                 </Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={tw`items-center`}>

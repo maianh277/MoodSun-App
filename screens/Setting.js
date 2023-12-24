@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import tw from "twrnc";
 import Account from "../components/Account";
 import Customization from "../components/Customization";
@@ -65,10 +65,10 @@ const SettingsScreen = () => {
   //   };
   // }, []);
   return (
-    <View style={tw`bg-white p-7 pt-10 flex-1`}>
+    <ScrollView style={tw`bg-white p-7 pt-10 flex-1`}>
       <Text style={tw`text-3xl text-center font-bold  mb-2`}>Settings</Text>
       <Account />
-      <Text>Your expo push token: {expoPushToken}</Text>
+      {/* <Text>Your expo push token: {expoPushToken}</Text> */}
       <Customization isEnabled={isEnabled} toggleSwitch={toggleSwitch} />
       <ServiceCenter />
       {email ? (
@@ -81,7 +81,7 @@ const SettingsScreen = () => {
       ) : (
         ""
       )}
-    </View>
+    </ScrollView>
   );
 };
 // async function schedulePushNotification() {

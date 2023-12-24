@@ -22,6 +22,7 @@ export default function EmotionEachDay({
   id,
   color,
   image,
+  expanded,
 }) {
   const deleteEmotion = async () => {
     try {
@@ -73,7 +74,11 @@ export default function EmotionEachDay({
         </View>
         <View style={tw`flex-row gap-4`}>
           <Text style={tw`text-sm`}>{time}</Text>
-          <FontAwesome5 name="chevron-right" size={20} color="#000" />
+          {expanded ? (
+            <FontAwesome5 name="chevron-down" size={20} color="#000" />
+          ) : (
+            <FontAwesome5 name="chevron-right" size={20} color="#000" />
+          )}
         </View>
       </View>
     </Swipeable>

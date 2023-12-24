@@ -145,6 +145,7 @@ export default function HomePage() {
                 color={emotionColors[emotion.emotionGeneral.name] || "#FFF"}
                 image={emotion.memories}
                 time={emotion.time}
+                expanded={expandedId === emotion.id}
               />
             </TouchableOpacity>
 

@@ -34,8 +34,14 @@ export default function CreateEmotion({ navigation, route }) {
   const [image, setImage] = useState(null);
 
   const closeModal = () => {
-    navigation.navigate("CreateEmotion", { isModal: false });
+    // navigation.navigate("HomePage", { isModal: false });
+    navigation.goBack();
+    navigation.setParams({ isModal: false });
   };
+  // useEffect(() => {
+  //   console.log(isModal);
+  // }, [isModal]);
+
   // chon emotion general
   const handleSelectedEmotion = (emotion) => {
     setEmotionGeneral(emotion);

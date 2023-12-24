@@ -1,4 +1,11 @@
-import { ScrollView, View, Text, Dimensions, Modal } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Dimensions,
+  Modal,
+  ToastAndroid,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import EmotionPick from "../components/EmotionPick";
 import EmotionDetailPick from "../components/EmotionDetailPick";
@@ -25,9 +32,16 @@ export default function CreateEmotion({ navigation, route }) {
   const [content, setContent] = useState("");
   const [account, setAccount] = useState("");
   const [image, setImage] = useState(null);
+
   const closeModal = () => {
-    navigation.navigate("CreateEmotion", { isModal: false });
+    // navigation.navigate("HomePage", { isModal: false });
+    navigation.goBack();
+    navigation.setParams({ isModal: false });
   };
+  // useEffect(() => {
+  //   console.log(isModal);
+  // }, [isModal]);
+
   // chon emotion general
   const handleSelectedEmotion = (emotion) => {
     setEmotionGeneral(emotion);
@@ -39,45 +53,66 @@ export default function CreateEmotion({ navigation, route }) {
   const handleSelectedAcquaintance = (acquaintance) => {
     setAcquaintance(acquaintance);
   };
+
   // lấy user email để lưu khi tạo task
-  useEffect(() => {
-    const user = getAuth().currentUser;
-    if (user) {
-      setAccount(user.email);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const user = getAuth().currentUser;
+  //   if (user) {
+  //     setAccount(user.email);
+  //   }
+  // }, []);
+
   const onDateChange = (date) => {
     setSelectedDate(date);
     setShowDatePicker(false);
   };
+  const formatTime = () => {
+    const timeStamp = Date.now();
+    const date = new Date(timeStamp);
+
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+
+    const formattedTime = hour + ":" + minute.toString().padStart(2, "0");
+    console.log(formattedTime);
+    return formattedTime;
+  };
 
   const createEmotion = async () => {
-    const formattedDate = selectedDate
-      ? selectedDate.toLocaleString()
-      : new Date().toISOString().split("T")[0].replace(/-/g, "/");
-    await addDoc(collection(db, "emotion"), {
-      emotionGeneral: {
-        name: emotionGeneral,
-      },
-      emotionDetail: {
-        name: emotionDetail,
-      },
-      acquaintance: {
-        name: acquaintance,
-      },
-      content: content,
-      date: formattedDate,
-      account: account,
-      memories: image,
-    })
-      .then(() => {
-        console.log(formattedDate);
-        console.log("Add data successful");
-        closeModal();
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      if (!emotionGeneral || !emotionDetail || !acquaintance) {
+        ToastAndroid.show(
+          "Please choose all required emotions and acquaintance",
+          ToastAndroid.LONG
+        );
+        return;
+      }
+      const formattedTime = formatTime();
+      const today = new Date().toISOString().split("T")[0].replace(/-/g, "/");
+      const formattedDate = selectedDate
+        ? selectedDate.toLocaleString()
+        : today;
+      const isToday = today === formattedDate;
+      console.log(today);
+      console.log(formattedDate);
+      await addDoc(collection(db, "emotion"), {
+        emotionGeneral: { name: emotionGeneral },
+        emotionDetail: { name: emotionDetail },
+        acquaintance: { name: acquaintance },
+        content: content,
+        date: formattedDate,
+        account: getAuth().currentUser.email,
+        memories: image,
+        time: isToday ? formattedTime : null,
       });
+
+      console.log(formattedDate);
+      ToastAndroid.show("Add data successful", ToastAndroid.LONG);
+      // console.log("Add data successful");
+      closeModal();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const uploadImageAsync = async (uri) => {
     const blob = await new Promise((resolve, reject) => {
@@ -105,7 +140,17 @@ export default function CreateEmotion({ navigation, route }) {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    if (!isModal) {
+      setSelectedDate("");
+      setEmotionGeneral("");
+      setEmotionDetail("");
+      setAcquaintance("");
+      setContent("");
+      setAccount("");
+      setImage(null);
+    }
+  }, [isModal]);
   return (
     <Modal visible={isModal} animationType="slide" transparent={true}>
       <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>
@@ -129,6 +174,10 @@ export default function CreateEmotion({ navigation, route }) {
           </View>
           {showDatePicker && (
             <DatePicker
+              maximumDate={new Date()
+                .toISOString()
+                .split("T")[0]
+                .replace(/-/g, "/")}
               mode="calendar"
               onSelectedChange={onDateChange}
               initial={selectedDate}
@@ -161,7 +210,10 @@ export default function CreateEmotion({ navigation, route }) {
             setImage={setImage}
           />
           <View style={tw`mx-5`}>
-            <CustomButton buttonText="Done" onLoginPress={createEmotion} />
+            <CustomButton
+              buttonText="Done"
+              onLoginPress={() => createEmotion()}
+            />
           </View>
         </View>
       </ScrollView>

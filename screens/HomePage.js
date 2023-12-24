@@ -32,6 +32,7 @@ export default function HomePage() {
   const [editMode, setEditMode] = useState(false);
   const [allTaskDate, setAllTaskDate] = useState([]);
   const [newContent, setNewContent] = useState("");
+  const [time, setTime] = useState("");
   const userEmail = getAuth().currentUser.email;
 
   // fetch emotion
@@ -116,7 +117,7 @@ export default function HomePage() {
   };
 
   return (
-    <ScrollView style={tw`bg-white p-2 pt-10`}>
+    <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
       <Text style={tw`font-bold text-xl my-3 mx-5`}>Your Mood Status</Text>
       <View>
         <CustomCalendar
@@ -142,6 +143,9 @@ export default function HomePage() {
                   emotion.emotionGeneral ? emotion.emotionGeneral.name : ""
                 }
                 color={emotionColors[emotion.emotionGeneral.name] || "#FFF"}
+                image={emotion.memories}
+                time={emotion.time}
+                expanded={expandedId === emotion.id}
               />
             </TouchableOpacity>
 
@@ -180,22 +184,32 @@ export default function HomePage() {
                     <TextInput
                       style={tw`h-10`}
                       onChangeText={(text) => setNewContent(text)}
-                    ></TextInput>
-                    <TouchableOpacity
-                      style={tw`bg-blue-500 p-2 w-15 rounded-md mt-5`}
-                      onPress={() => updateEmotionContent(emotion.id)}
-                    >
-                      <Text style={tw`text-white text-center`}>Save</Text>
-                    </TouchableOpacity>
+                    />
+                    <View style={tw`flex-row justify-end`}>
+                      <TouchableOpacity
+                        style={tw`bg-blue-500 p-2 w-15 rounded-md mt-5 mr-2`}
+                        onPress={() => updateEmotionContent(emotion.id)}
+                      >
+                        <Text style={tw`text-white text-center`}>Save</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={tw`bg-red-400 p-2 w-15 rounded-md mt-5`}
+                        onPress={() => setEditMode(false)}
+                      >
+                        <Text style={tw`text-white text-center`}>Cancel</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 ) : (
                   <Text style={tw`px-3 py-4`}>{emotion.content}</Text>
                 )}
 
-                <Image
-                  source={{ uri: emotion.memories }}
-                  style={tw`w-[200px] h-[200px] m-auto`}
-                />
+                {emotion.memories ? (
+                  <Image
+                    source={{ uri: emotion.memories }}
+                    style={tw`w-[200px] h-[200px] m-auto`}
+                  />
+                ) : null}
               </View>
             </Collapsible>
           </View>

@@ -1,9 +1,10 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import * as ImagePicker from "expo-image-picker";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../config/FirebaseConfig";
+
 export default function UploadMemories({
   bgColor,
   uploadImageAsync,
@@ -11,30 +12,29 @@ export default function UploadMemories({
   setImage,
 }) {
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    delete result.cancelled;
+    if (!image) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      delete result.cancelled;
 
-    console.log(result);
-
-    if (!result.canceled) {
-      const uploadURL = await uploadImageAsync(result.assets[0].uri);
-      setImage(uploadURL);
+      if (!result.canceled) {
+        const uploadURL = await uploadImageAsync(result.assets[0].uri);
+        setImage(uploadURL);
+      }
     }
   };
 
   const deleteImage = async () => {
     const deleteRef = ref(storage, image);
     try {
-      deleteObject(deleteRef).then(() => {
-        setImage(null);
-      });
+      await deleteObject(deleteRef);
+      setImage(null);
     } catch (error) {
-      console.log(error);
+      Alert.alert("Error", error.message);
     }
   };
 
@@ -44,10 +44,7 @@ export default function UploadMemories({
         style={[tw`my-3 mx-5 py-3 rounded-lg`, { backgroundColor: bgColor }]}
       >
         <Text style={tw`text-center font-bold text-lg`}>Upload Memories</Text>
-        <TouchableOpacity
-          style={tw`flex-col items-center my-15`}
-          onPress={pickImage}
-        >
+        <View style={tw`flex-col items-center my-15`}>
           {image && image ? (
             <View>
               <Image
@@ -64,15 +61,15 @@ export default function UploadMemories({
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={tw`items-center`}>
+            <TouchableOpacity style={tw`items-center`} onPress={pickImage}>
               <Image
                 style={tw`h-10 w-10 my-1`}
                 source={require("../assets/upload_memories.png")}
               />
               <Text>Click here to select photo</Text>
-            </View>
+            </TouchableOpacity>
           )}
-        </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

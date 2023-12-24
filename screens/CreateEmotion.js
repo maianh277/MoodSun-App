@@ -25,7 +25,7 @@ export default function CreateEmotion({ navigation, route }) {
   const [content, setContent] = useState("");
   const [account, setAccount] = useState("");
   const [image, setImage] = useState(null);
-  // const [time, setTime] = useState("");
+
   const closeModal = () => {
     navigation.navigate("CreateEmotion", { isModal: false });
   };
@@ -40,13 +40,15 @@ export default function CreateEmotion({ navigation, route }) {
   const handleSelectedAcquaintance = (acquaintance) => {
     setAcquaintance(acquaintance);
   };
+
   // lấy user email để lưu khi tạo task
   useEffect(() => {
     const user = getAuth().currentUser;
     if (user) {
       setAccount(user.email);
     }
-  }, []);
+  }, [getAuth().currentUser]);
+
   const onDateChange = (date) => {
     setSelectedDate(date);
     setShowDatePicker(false);
@@ -64,34 +66,29 @@ export default function CreateEmotion({ navigation, route }) {
   };
 
   const createEmotion = async () => {
-    const formattedTime = formatTime();
-    const formattedDate = selectedDate
-      ? selectedDate.toLocaleString()
-      : new Date().toISOString().split("T")[0].replace(/-/g, "/");
-    await addDoc(collection(db, "emotion"), {
-      emotionGeneral: {
-        name: emotionGeneral,
-      },
-      emotionDetail: {
-        name: emotionDetail,
-      },
-      acquaintance: {
-        name: acquaintance,
-      },
-      content: content,
-      date: formattedDate,
-      account: account,
-      memories: image,
-      time: formattedTime,
-    })
-      .then(() => {
-        console.log(formattedDate);
-        console.log("Add data successful");
-        closeModal();
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const formattedTime = formatTime();
+      const formattedDate = selectedDate
+        ? selectedDate.toLocaleString()
+        : new Date().toISOString().split("T")[0].replace(/-/g, "/");
+
+      await addDoc(collection(db, "emotion"), {
+        emotionGeneral: { name: emotionGeneral },
+        emotionDetail: { name: emotionDetail },
+        acquaintance: { name: acquaintance },
+        content: content,
+        date: formattedDate,
+        account: account,
+        memories: image,
+        time: formattedTime,
       });
+
+      console.log(formattedDate);
+      console.log("Add data successful");
+      closeModal();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const uploadImageAsync = async (uri) => {
     const blob = await new Promise((resolve, reject) => {

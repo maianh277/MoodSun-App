@@ -1,4 +1,11 @@
-import { ScrollView, View, Text, Dimensions, Modal } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Dimensions,
+  Modal,
+  ToastAndroid,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import EmotionPick from "../components/EmotionPick";
 import EmotionDetailPick from "../components/EmotionDetailPick";
@@ -42,12 +49,12 @@ export default function CreateEmotion({ navigation, route }) {
   };
 
   // lấy user email để lưu khi tạo task
-  useEffect(() => {
-    const user = getAuth().currentUser;
-    if (user) {
-      setAccount(user.email);
-    }
-  }, [getAuth().currentUser]);
+  // useEffect(() => {
+  //   const user = getAuth().currentUser;
+  //   if (user) {
+  //     setAccount(user.email);
+  //   }
+  // }, []);
 
   const onDateChange = (date) => {
     setSelectedDate(date);
@@ -67,24 +74,35 @@ export default function CreateEmotion({ navigation, route }) {
 
   const createEmotion = async () => {
     try {
+      if (!emotionGeneral || !emotionDetail || !acquaintance) {
+        ToastAndroid.show(
+          "Please choose all required emotions and acquaintance",
+          ToastAndroid.LONG
+        );
+        return;
+      }
       const formattedTime = formatTime();
+      const today = new Date().toISOString().split("T")[0].replace(/-/g, "/");
       const formattedDate = selectedDate
         ? selectedDate.toLocaleString()
-        : new Date().toISOString().split("T")[0].replace(/-/g, "/");
-
+        : today;
+      const isToday = today === formattedDate;
+      console.log(today);
+      console.log(formattedDate);
       await addDoc(collection(db, "emotion"), {
         emotionGeneral: { name: emotionGeneral },
         emotionDetail: { name: emotionDetail },
         acquaintance: { name: acquaintance },
         content: content,
         date: formattedDate,
-        account: account,
+        account: getAuth().currentUser.email,
         memories: image,
-        time: formattedTime,
+        time: isToday ? formattedTime : null,
       });
 
       console.log(formattedDate);
-      console.log("Add data successful");
+      ToastAndroid.show("Add data successful", ToastAndroid.LONG);
+      // console.log("Add data successful");
       closeModal();
     } catch (error) {
       console.log(error);
@@ -150,6 +168,10 @@ export default function CreateEmotion({ navigation, route }) {
           </View>
           {showDatePicker && (
             <DatePicker
+              maximumDate={new Date()
+                .toISOString()
+                .split("T")[0]
+                .replace(/-/g, "/")}
               mode="calendar"
               onSelectedChange={onDateChange}
               initial={selectedDate}
@@ -182,7 +204,10 @@ export default function CreateEmotion({ navigation, route }) {
             setImage={setImage}
           />
           <View style={tw`mx-5`}>
-            <CustomButton buttonText="Done" onLoginPress={createEmotion} />
+            <CustomButton
+              buttonText="Done"
+              onLoginPress={() => createEmotion()}
+            />
           </View>
         </View>
       </ScrollView>

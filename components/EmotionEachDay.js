@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ToastAndroid,
+} from "react-native";
 import tw from "twrnc";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
@@ -26,7 +32,8 @@ export default function EmotionEachDay({
       }
       updateEmotion();
 
-      console.log("Emotion deleted successfully");
+      // console.log("Emotion deleted successfully");
+      ToastAndroid.show("Emotion deleted successfully", ToastAndroid.LONG);
     } catch (error) {
       console.error("Error deleting task:", error);
     }

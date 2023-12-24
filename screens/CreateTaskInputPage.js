@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Dimensions, Modal, ScrollView } from "react-native";
+import {
+  View,
+  Dimensions,
+  Modal,
+  ScrollView,
+  ToastAndroid,
+} from "react-native";
 import CreateTaskTitle from "../components/CreateTaskTitle";
 import InputName from "../components/InputName";
 import DateTask from "../components/DateTask";
@@ -35,24 +41,42 @@ export default function CreateTaskInputPage({
   }, []);
   // create task
   const createTask = async () => {
-    await addDoc(collection(db, "task"), {
-      taskName: taskName,
-      itemsValue: itemsValue,
-      reminder: isEnabled,
-      account: account,
-      done: done,
-      date: date,
-    })
-      .then(() => {
-        console.log("Add data successful");
-        closeModal();
-        updateTasks();
-        fetchCount();
+    try {
+      if (!taskName) {
+        ToastAndroid.show("Please enter a task name", ToastAndroid.LONG);
+        return;
+      }
+      if (!itemsValue) {
+        ToastAndroid.show("Please enter items for the task", ToastAndroid.LONG);
+        return;
+      }
+      if (!date) {
+        ToastAndroid.show("Please enter a valid date", ToastAndroid.LONG);
+        return;
+      }
+
+      await addDoc(collection(db, "task"), {
+        taskName: taskName,
+        itemsValue: itemsValue,
+        reminder: isEnabled,
+        account: account,
+        done: done,
+        date: date,
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then(() => {
+          ToastAndroid.show("Add data successful", ToastAndroid.LONG);
+          closeModal();
+          updateTasks();
+          fetchCount();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <Modal visible={isModal} animationType="slide">
       <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>

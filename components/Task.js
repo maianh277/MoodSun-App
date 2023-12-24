@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ToastAndroid } from "react-native";
 import { CheckBox } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
@@ -40,7 +40,8 @@ export default function Task({
   const deleteTask = async () => {
     try {
       await deleteDoc(doc(db, "task", taskId));
-      console.log("Task deleted successfully");
+      ToastAndroid.show("Task deleted successfully", ToastAndroid.LONG);
+      // console.log("Task deleted successfully");
       updateTasks();
       fetchCount();
       fetchDoneCount();

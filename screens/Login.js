@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ToastAndroid } from "react-native";
 import tw from "twrnc";
 import EmailAndPasswordInput from "../components/EmailAndPasswordInput";
 import LoginButton from "../components/CustomButton";
@@ -23,17 +23,26 @@ const LoginScreen = () => {
     });
     return unsubscribe;
   }, []);
+
+  const showToast = (message) => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.SHORT,
+      ToastAndroid.TOP 
+    );
+  };
+  
   const handleLogin = () => {
     if (!email && !password) {
-      alert("Vui lòng nhập cả email và mật khẩu.");
+      showToast("Please enter both email and password.");
       return;
     }
     if (!email) {
-      alert("Vui lòng nhập email.");
+      showToast("Please enter your email.");
       return;
     }
     if (!password) {
-      alert("Vui lòng nhập mật khẩu.");
+      showToast("Please enter your password.");
       return;
     }
 
@@ -45,16 +54,16 @@ const LoginScreen = () => {
       .catch((error) => {
         switch (error.code) {
           case "auth/user-not-found":
-            alert("Không tìm thấy người dùng với email này.");
+            showToast("No user found with this email.");
             break;
           case "auth/wrong-password":
-            alert("Mật khẩu không chính xác.");
+            showToast("Incorrect password.");
             break;
           case "auth/invalid-email":
-            alert("Email không hợp lệ.");
+            showToast("Invalid email.");
             break;
           default:
-            alert("Đã xảy ra lỗi: " + error.message);
+            showToast("An error occurred: " + error.message);
         }
       });
   };

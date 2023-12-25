@@ -19,32 +19,32 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
-      alert("Mật khẩu không khớp!");
-      return;
+        ToastAndroid.show("Passwords do not match!", ToastAndroid.SHORT);
+        return;
     }
-  
+
     try {
-      const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, email, password);
-      alert('Tạo tài khoản thành công!');
+        const auth = getAuth();
+        await createUserWithEmailAndPassword(auth, email, password);
+        ToastAndroid.show('Account created successfully!', ToastAndroid.SHORT);
     } catch (error) {
-      let errorMessage = '';
-      switch (error.code) {
-        case 'auth/invalid-email':
-          errorMessage = 'Email không hợp lệ.';
-          break;
-        case 'auth/email-already-in-use':
-          errorMessage = 'Email đã được sử dụng.';
-          break;
-        case 'auth/weak-password':
-          errorMessage = 'Mật khẩu quá yếu.';
-          break;
-        default:
-          errorMessage = 'Đã có lỗi xảy ra: ' + error.message;
-      }
-      alert(errorMessage);
+        let errorMessage = '';
+        switch (error.code) {
+            case 'auth/invalid-email':
+                errorMessage = 'Invalid email.';
+                break;
+            case 'auth/email-already-in-use':
+                errorMessage = 'Email already in use.';
+                break;
+            case 'auth/weak-password':
+                errorMessage = 'Password is too weak.';
+                break;
+            default:
+                errorMessage = 'An error occurred: ' + error.message;
+        }
+        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
     }
-  };
+};
   
 
   return (

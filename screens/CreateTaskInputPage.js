@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Dimensions, Modal, ScrollView } from "react-native";
+import {
+  View,
+  Dimensions,
+  Modal,
+  ScrollView,
+  ToastAndroid,
+} from "react-native";
 import CreateTaskTitle from "../components/CreateTaskTitle";
 import InputName from "../components/InputName";
-import TimeAndReminderTask from "../components/TimeAndReminderTask";
 import DateTask from "../components/DateTask";
 import Reminder from "../components/Reminder";
 import CustomButtom from "../components/CustomButton";
@@ -27,7 +32,6 @@ export default function CreateTaskInputPage({
   const [account, setAccount] = useState("");
   const [done, setDone] = useState(0);
   const [date, setDate] = useState("");
-
   // lấy user email để lưu khi tạo task
   useEffect(() => {
     const user = getAuth().currentUser;
@@ -37,24 +41,42 @@ export default function CreateTaskInputPage({
   }, []);
   // create task
   const createTask = async () => {
-    await addDoc(collection(db, "task"), {
-      taskName: taskName,
-      itemsValue: itemsValue,
-      reminder: isEnabled,
-      account: account,
-      done: done,
-      date: date,
-    })
-      .then(() => {
-        console.log("Add data successful");
-        closeModal();
-        updateTasks();
-        fetchCount();
+    try {
+      if (!taskName) {
+        ToastAndroid.show("Please enter a task name", ToastAndroid.LONG);
+        return;
+      }
+      if (!itemsValue) {
+        ToastAndroid.show("Please enter items for the task", ToastAndroid.LONG);
+        return;
+      }
+      if (!date) {
+        ToastAndroid.show("Please enter a valid date", ToastAndroid.LONG);
+        return;
+      }
+
+      await addDoc(collection(db, "task"), {
+        taskName: taskName,
+        itemsValue: itemsValue,
+        reminder: isEnabled,
+        account: account,
+        done: done,
+        date: date,
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then(() => {
+          ToastAndroid.show("Add data successful", ToastAndroid.LONG);
+          closeModal();
+          updateTasks();
+          fetchCount();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <Modal visible={isModal} animationType="slide">
       <ScrollView style={{ height, width, backgroundColor: "#F4EDE3" }}>
@@ -70,14 +92,9 @@ export default function CreateTaskInputPage({
           }}
         />
         <View style={tw`bg-white mt-3 mx-5 rounded-lg mb-4`}>
-          <TimeAndReminderTask />
+          {/* <TimeAndReminderTask /> */}
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
-          <DateTask
-            // function_name="Start Date"
-            // icon_source={require("../assets/createTaskIcon/start_day.png")}
-            selectedDate={date}
-            setSelectedDate={setDate}
-          />
+          <DateTask selectedDate={date} setSelectedDate={setDate} />
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>
           <Reminder isEnabled={isEnabled} setIsEnabled={setIsEnabled} />
         </View>

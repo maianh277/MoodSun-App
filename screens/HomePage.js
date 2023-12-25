@@ -4,7 +4,6 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Button,
   Image,
 } from "react-native";
 import React from "react";
@@ -31,10 +30,12 @@ export default function HomePage() {
   const [expandedId, setExpandedId] = useState(null);
   const [emotions, setEmotions] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [allTaskDate, setAllTaskDate] = useState([]);
   const [newContent, setNewContent] = useState("");
+  const [time, setTime] = useState("");
   const userEmail = getAuth().currentUser.email;
 
-  // fetch task
+  // fetch emotion
   const fetchEmotion = async () => {
     try {
       const formattedDate = selectedDate.replace(/-/g, "/");
@@ -49,21 +50,41 @@ export default function HomePage() {
       const newEmotion = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
-        iconPath: doc.data().emotionGeneral.path,
       }));
       setEmotions(newEmotion);
+    } catch (error) {
+      console.error("Error fetching emotion:", error);
+    }
+  };
+
+  const fetchTasksDate = async () => {
+    try {
+      const querySnapshot = await getDocs(
+        query(collection(db, "emotion"), where("account", "==", userEmail))
+      );
+
+      const newTasks = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const allDates = newTasks.map((emotion) =>
+        emotion.date.replace(/\//g, "-")
+      );
+      setAllTaskDate(allDates);
+      console.log(allDates);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
   };
-
   const updateEmotion = async () => {
     await fetchEmotion();
+    await fetchTasksDate();
   };
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchEmotion();
+      await fetchTasksDate();
     };
     fetchData();
   }, [selectedDate]);
@@ -96,13 +117,15 @@ export default function HomePage() {
   };
 
   return (
-    <ScrollView style={tw`bg-white p-2 pt-10`}>
+    <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
       <Text style={tw`font-bold text-xl my-3 mx-5`}>Your Mood Status</Text>
       <View>
         <CustomCalendar
           selected={selectedDate}
           setSelected={setSelectedDate}
           onDateSelect={(date) => setSelectedDate(date)}
+          allTaskDate={allTaskDate}
+          fetchTasksDate={fetchTasksDate}
         />
       </View>
       <Text style={tw`ml-6 font-bold text-xl mt-2`}>You were ...</Text>
@@ -120,6 +143,9 @@ export default function HomePage() {
                   emotion.emotionGeneral ? emotion.emotionGeneral.name : ""
                 }
                 color={emotionColors[emotion.emotionGeneral.name] || "#FFF"}
+                image={emotion.memories}
+                time={emotion.time}
+                expanded={expandedId === emotion.id}
               />
             </TouchableOpacity>
 
@@ -158,17 +184,32 @@ export default function HomePage() {
                     <TextInput
                       style={tw`h-10`}
                       onChangeText={(text) => setNewContent(text)}
-                    ></TextInput>
-                    <TouchableOpacity
-                      style={tw`bg-blue-500 p-2 w-15 rounded-md mt-5`}
-                      onPress={() => updateEmotionContent(emotion.id)}
-                    >
-                      <Text style={tw`text-white text-center`}>Save</Text>
-                    </TouchableOpacity>
+                    />
+                    <View style={tw`flex-row justify-end`}>
+                      <TouchableOpacity
+                        style={tw`bg-blue-500 p-2 w-15 rounded-md mt-5 mr-2`}
+                        onPress={() => updateEmotionContent(emotion.id)}
+                      >
+                        <Text style={tw`text-white text-center`}>Save</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={tw`bg-red-400 p-2 w-15 rounded-md mt-5`}
+                        onPress={() => setEditMode(false)}
+                      >
+                        <Text style={tw`text-white text-center`}>Cancel</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 ) : (
-                  <Text>{emotion.content}</Text>
+                  <Text style={tw`px-3 py-4`}>{emotion.content}</Text>
                 )}
+
+                {emotion.memories ? (
+                  <Image
+                    source={{ uri: emotion.memories }}
+                    style={tw`w-[200px] h-[200px] m-auto`}
+                  />
+                ) : null}
               </View>
             </Collapsible>
           </View>

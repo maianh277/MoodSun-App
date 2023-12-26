@@ -5,25 +5,20 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  ToastAndroid,
 } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import CustomCalendar from "../components/CustomCalendar";
 import EmotionEachDay from "../components/EmotionEachDay";
 import Collapsible from "react-native-collapsible";
-import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  query,
-  doc,
-  where,
-  updateDoc,
-} from "firebase/firestore";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth";
 import { emotionDetailImages, acquaintanceImages } from "../path/images";
 import { emotionColors } from "../path/color";
+import { fetchEmotion, fetchTasksDate } from "../utils/emotion";
 
 export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState("");
@@ -32,61 +27,16 @@ export default function HomePage() {
   const [editMode, setEditMode] = useState(false);
   const [allTaskDate, setAllTaskDate] = useState([]);
   const [newContent, setNewContent] = useState("");
-  const [time, setTime] = useState("");
   const userEmail = getAuth().currentUser.email;
 
-  // fetch emotion
-  const fetchEmotion = async () => {
-    try {
-      const formattedDate = selectedDate.replace(/-/g, "/");
-      const querySnapshot = await getDocs(
-        query(
-          collection(db, "emotion"),
-          where("account", "==", userEmail),
-          where("date", "==", formattedDate)
-        )
-      );
-
-      const newEmotion = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setEmotions(newEmotion);
-    } catch (error) {
-      console.error("Error fetching emotion:", error);
-    }
-  };
-
-  const fetchTasksDate = async () => {
-    try {
-      const querySnapshot = await getDocs(
-        query(collection(db, "emotion"), where("account", "==", userEmail))
-      );
-
-      const newTasks = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      const allDates = newTasks.map((emotion) =>
-        emotion.date.replace(/\//g, "-")
-      );
-      setAllTaskDate(allDates);
-      console.log(allDates);
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
   const updateEmotion = async () => {
-    await fetchEmotion();
-    await fetchTasksDate();
+    await fetchEmotion(setEmotions, userEmail, selectedDate);
+    await fetchTasksDate(setAllTaskDate);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchEmotion();
-      await fetchTasksDate();
-    };
-    fetchData();
+  useMemo(() => {
+    fetchEmotion(setEmotions, userEmail, selectedDate);
+    fetchTasksDate(setAllTaskDate);
   }, [selectedDate]);
 
   // mở rộng thẻ EmotionEachDay để view thông tin detail
@@ -108,7 +58,7 @@ export default function HomePage() {
       content: newContent,
     })
       .then(() => {
-        console.log("Update data successful");
+        ToastAndroid.show("Update data successful", ToastAndroid.LONG);
         updateEmotion();
       })
       .catch((error) => {
@@ -117,17 +67,19 @@ export default function HomePage() {
   };
 
   return (
-    <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
-      <Text style={tw`font-bold text-xl my-3 mx-5`}>Your Mood Status</Text>
+    <ScrollView style={tw`bg-white p-2 flex-1`}>
+      <Text style={tw`font-bold text-xl my-3 mx-5 mt-8`}>Your Mood Status</Text>
       <View>
         <CustomCalendar
           selected={selectedDate}
           setSelected={setSelectedDate}
           onDateSelect={(date) => setSelectedDate(date)}
           allTaskDate={allTaskDate}
-          fetchTasksDate={fetchTasksDate}
+          fetchTasksDate={() => fetchTasksDate(setAllTaskDate)}
+          setAllTaskDate={setAllTaskDate}
         />
       </View>
+
       <Text style={tw`ml-6 font-bold text-xl mt-2`}>You were ...</Text>
       {emotions &&
         emotions.map((emotion) => (
@@ -185,7 +137,7 @@ export default function HomePage() {
                       style={tw`h-10`}
                       onChangeText={(text) => setNewContent(text)}
                     />
-                    <View style={tw`flex-row justify-end`}>
+                    <View style={tw`flex-row justify-end mb-3`}>
                       <TouchableOpacity
                         style={tw`bg-blue-500 p-2 w-15 rounded-md mt-5 mr-2`}
                         onPress={() => updateEmotionContent(emotion.id)}

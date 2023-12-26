@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Dimensions, Image, Text } from "react-native";
+import { View, Image, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import tw from "twrnc";
 
 const MoodChart = ({ data }) => {
   return (
-    <View >
+    <View>
       <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text>
       <View style={tw`flex-row`}>
         <View style={tw`flex flex-col items-center justify-center mr-2`}>
@@ -59,7 +59,7 @@ const data = {
 const chartConfig = {
   backgroundColor: "#FEFCF5",
   backgroundGradientFrom: "#FEFCF5",
-  backgroundGradientTo:"#FEFCF5",
+  backgroundGradientTo: "#FEFCF5",
   decimalPlaces: 2,
   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,

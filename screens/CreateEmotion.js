@@ -17,10 +17,10 @@ import UploadMemories from "../components/UploadMemories";
 import CustomButton from "../components/CustomButton";
 import DatePicker from "react-native-modern-datepicker";
 const { height, width } = Dimensions.get("window");
-import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
 
 export default function CreateEmotion({ navigation, route }) {
   const { isModal } = route.params || {};
@@ -34,13 +34,9 @@ export default function CreateEmotion({ navigation, route }) {
   const [image, setImage] = useState(null);
 
   const closeModal = () => {
-    // navigation.navigate("HomePage", { isModal: false });
     navigation.goBack();
     navigation.setParams({ isModal: false });
   };
-  // useEffect(() => {
-  //   console.log(isModal);
-  // }, [isModal]);
 
   // chon emotion general
   const handleSelectedEmotion = (emotion) => {
@@ -53,15 +49,6 @@ export default function CreateEmotion({ navigation, route }) {
   const handleSelectedAcquaintance = (acquaintance) => {
     setAcquaintance(acquaintance);
   };
-
-  // lấy user email để lưu khi tạo task
-  // useEffect(() => {
-  //   const user = getAuth().currentUser;
-  //   if (user) {
-  //     setAccount(user.email);
-  //   }
-  // }, []);
-
   const onDateChange = (date) => {
     setSelectedDate(date);
     setShowDatePicker(false);
@@ -93,8 +80,7 @@ export default function CreateEmotion({ navigation, route }) {
         ? selectedDate.toLocaleString()
         : today;
       const isToday = today === formattedDate;
-      console.log(today);
-      console.log(formattedDate);
+
       await addDoc(collection(db, "emotion"), {
         emotionGeneral: { name: emotionGeneral },
         emotionDetail: { name: emotionDetail },
@@ -108,7 +94,6 @@ export default function CreateEmotion({ navigation, route }) {
 
       console.log(formattedDate);
       ToastAndroid.show("Add data successful", ToastAndroid.LONG);
-      // console.log("Add data successful");
       closeModal();
     } catch (error) {
       console.log(error);

@@ -9,7 +9,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MenuNavigator from "./MenuNavigator";
 import StatisticPage from "../screens/StatisticPage";
 import SignUp from "../screens/SignUp";
+import TermsOfService from "../screens/TermsOfService";
 import CreateTaskInputPage from "../screens/CreateTaskInputPage";
+import ContactUs from "../screens/ContactUs";
 const Stack = createStackNavigator();
 export default function AppNavigator() {
   return (
@@ -20,8 +22,18 @@ export default function AppNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="ContactUs"
+        component={ContactUs}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="CreateTaskInputPage"
         component={CreateTaskInputPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TermsOfService"
+        component={TermsOfService}
         options={{ headerShown: false }}
       />
       <Stack.Screen

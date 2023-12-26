@@ -25,7 +25,7 @@ const EmotionProgressChart = ({ data }) => {
   return (
     <View>
       <View>
-      <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Progrees</Text>
+      <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Progrses</Text>
       </View>
       <ProgressChart
       data={data}

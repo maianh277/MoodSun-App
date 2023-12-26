@@ -20,7 +20,6 @@ import {
 } from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth";
-
 export default function TargetPage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [tasks, setTasks] = useState([]);
@@ -134,8 +133,8 @@ export default function TargetPage() {
   }, [selectedDate]);
 
   return (
-    <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
-      <View style={tw`flex-row justify-between items-center mx-5`}>
+    <ScrollView style={tw`bg-white p-2 flex-1`}>
+      <View style={tw`flex-row justify-between items-center mx-5 mt-6`}>
         <Text style={tw`font-bold text-xl my-3 `}>Your To-do Lists</Text>
         <TouchableOpacity
           style={tw`bg-orange-500 rounded-full w-10 h-10 justify-center items-center`}
@@ -153,6 +152,7 @@ export default function TargetPage() {
           fetchTasksDate={fetchTasksDate}
         />
       </View>
+
       <View style={tw`flex-row items-center justify-between mx-6 `}>
         <Text style={tw`font-bold text-lg`}>Task</Text>
         <Text style={tw`font-bold text-lg`}>

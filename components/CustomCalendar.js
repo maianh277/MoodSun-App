@@ -10,13 +10,14 @@ export default function CustomCalendar({
   onDateSelect,
   allTaskDate,
   fetchTasksDate,
+  setAllTaskDate,
 }) {
   const [markedDates, setMarkedDates] = useState({});
   const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchTasksDate();
+      await fetchTasksDate(setAllTaskDate);
       setDataFetched(true);
     };
 
@@ -30,6 +31,7 @@ export default function CustomCalendar({
         marked[date] = { marked: true, dotColor: "orange" };
       });
       setMarkedDates(marked);
+      console.log("all task date:", allTaskDate);
     }
   }, [dataFetched, allTaskDate]);
 

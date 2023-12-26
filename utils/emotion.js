@@ -1,3 +1,4 @@
+import { onSnapshot } from "firebase/firestore";
 import { db } from "../config/FirebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -24,26 +25,29 @@ export const fetchEmotion = async (setEmotions, userEmail, selectedDate) => {
   }
 };
 
-export const fetchTasksDate = async (setAllTaskDate) => {
+export const fetchTasksDate = (setAllTaskDate) => {
   try {
     const userEmail = getAuth().currentUser.email;
     if (userEmail) {
-      const querySnapshot = await getDocs(
-        query(collection(db, "emotion"), where("account", "==", userEmail))
+      const q = query(
+        collection(db, "emotion"),
+        where("account", "==", userEmail)
       );
 
-      const newTasks = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      const allDates = newTasks.map((emotion) =>
-        emotion.date.replace(/\//g, "-")
-      );
-      setAllTaskDate(allDates);
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const newTasks = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        const allDates = newTasks.map((emotion) =>
+          emotion.date.replace(/\//g, "-")
+        );
+        setAllTaskDate(allDates);
+      });
+
+      return unsubscribe;
     }
   } catch (error) {
     console.error("Error fetching tasks:", error);
   }
 };
-
-

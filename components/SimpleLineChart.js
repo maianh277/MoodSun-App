@@ -45,17 +45,6 @@ const MoodChart = ({ data }) => {
   );
 };
 
-const data = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43, 50],
-      color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
-      strokeWidth: 2,
-    },
-  ],
-};
-
 const chartConfig = {
   backgroundColor: "#FEFCF5",
   backgroundGradientFrom: "#FEFCF5",

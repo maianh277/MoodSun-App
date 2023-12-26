@@ -34,9 +34,12 @@ export default function HomePage() {
     await fetchTasksDate(setAllTaskDate);
   };
 
-  useMemo(() => {
-    fetchEmotion(setEmotions, userEmail, selectedDate);
+  useEffect(() => {
     fetchTasksDate(setAllTaskDate);
+  }, []);
+
+  useEffect(() => {
+    fetchEmotion(setEmotions, userEmail, selectedDate);
   }, [selectedDate]);
 
   // mở rộng thẻ EmotionEachDay để view thông tin detail

@@ -6,30 +6,30 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
 import tw from "twrnc";
-
+import { Chip, withTheme, lightColors } from "@rneui/themed";
 const EmotionProgressChart = () => {
   const [data, setData] = useState({
     labels: ["happy", "normal", "sad", "cry", "angry"],
     data: [],
   });
-
+  const [month, setMonth] = useState("");
   useEffect(() => {
     const userEmail = getAuth().currentUser.email;
 
-    // const date = new Date();
-    // const month = new Date().getMonth() + 1;
+    const date = new Date();
+    const month = new Date().getMonth() + 1;
+    setMonth(month);
+    const start = new Date(date.getFullYear(), month - 1, 1)
+      .toISOString()
+      .split("T")[0]
+      .replace(/-/g, "/");
 
-    // const start = new Date(date.getFullYear(), month - 1, 1)
-    //   .toISOString()
-    //   .split("T")[0]
-    //   .replace(/-/g, "/");
-
-    // const end = new Date(date.getFullYear(), month, 0)
-    //   .toISOString()
-    //   .split("T")[0]
-    //   .replace(/-/g, "/");
-    const start = "2023/11/30";
-    const end = "2023/12/30";
+    const end = new Date(date.getFullYear(), month, 0)
+      .toISOString()
+      .split("T")[0]
+      .replace(/-/g, "/");
+    // const start = "2023/11/30";
+    // const end = "2023/12/30";
 
     // console.log("date: ", date);
     // console.log("month: ", month);
@@ -38,8 +38,8 @@ const EmotionProgressChart = () => {
     const q = query(
       collection(db, "emotion"),
       where("account", "==", userEmail),
-      // where("date", ">=", start),
-      // where("date", "<=", end)
+      where("date", ">=", start),
+      where("date", "<=", end)
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -103,6 +103,9 @@ const EmotionProgressChart = () => {
   return (
     <View>
       <Text style={tw`text-xl font-bold mb-2 text-center`}>Mood Progress</Text>
+      <View style={tw`mx-20 my-4`}>
+        <Chip title={`${month}`} />
+      </View>
       <ProgressChart
         style={tw`rounded-lg`}
         data={data}

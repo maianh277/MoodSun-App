@@ -18,7 +18,7 @@ import { db } from "../config/FirebaseConfig";
 import { getAuth } from "firebase/auth";
 import { emotionDetailImages, acquaintanceImages } from "../path/images";
 import { emotionColors } from "../path/color";
-import { fetchEmotion, fetchTasksDate } from "../utils/emotion";
+import { fetchEmotion, fetchTasksDate } from "../api/emotion";
 
 export default function HomePage() {
   const [selectedDate, setSelectedDate] = useState("");

@@ -14,14 +14,14 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import moment from "moment";
-import EmotionProgressChart from "../components/EmotionProgressChart";
+
 
 const emotionScore = {
-  "angry": -50,
-  "cry": -25,
-  "sad": 0,
-  "normal": 25,
-  "happy": 50,
+  "angry": -15,
+  "cry": -10,
+  "sad": -5,
+  "normal": 5,
+  "happy": 10,
 }
 
 export default function StatisticPage({ navigation }) {
@@ -42,50 +42,50 @@ export default function StatisticPage({ navigation }) {
       // const newEmotion = querySnapshot.docs.map((doc) => ({
       //   ...doc.data(),
       // }));
-      const labels = [];
+      let chartDataObject = []
+      // const labels = [];
       const names = ["happy", "normal", "sad", "cry", "angry"]
-      const data = []
-      let edata = [50, 50, 50, 50, 50]
-      let currentScore = 50;
+      // const data = []
+      let edata = [0, 0, 0, 0, 0]
+      let currentScore = 0;
 
       for (const doc of querySnapshot.docs){
         const cdate = moment().diff(moment(doc.data()["date"], "YYYY/MM/DD"), "days");
-        if (cdate <= 7) {
+        if (cdate < 7) {
           const date = doc.data()["date"].split("/")
           // console.log(date)
-          const idx = labels.indexOf(`${date[1]}/${date[2]}`)
-          const eidx = names.indexOf(doc.data().emotionGeneral.name)
+          const idx = chartDataObject.findIndex(obj => obj.label === `${date[1]}/${date[2]}`);
+
           if (idx == -1) {
-            labels.push(`${date[1]}/${date[2]}`)
-            data.push(currentScore + parseInt(emotionScore[doc.data().emotionGeneral.name]))
+            let newScore = currentScore + parseInt(emotionScore[doc.data().emotionGeneral.name])
+            // if (newScore < 0) newScore = 0;
+
+            chartDataObject.push({
+              label: `${date[1]}/${date[2]}`,
+              data: newScore
+            })
           }
           else {
-            data[idx] = data[idx] + parseInt(emotionScore[doc.data().emotionGeneral.name])
+            chartDataObject[idx].data = chartDataObject[idx].data + parseInt(emotionScore[doc.data().emotionGeneral.name])
           }
-          edata[eidx] = edata[eidx] + parseInt(emotionScore[doc.data().emotionGeneral.name])
         }
       }
-      // labels.sort()
-      // console.log(edata)
+      chartDataObject = chartDataObject.sort((a, b) => moment(a.label , "MM/DD").diff(moment(b.label, "MM/DD"), "days"));
+      console.log(chartDataObject)
 
       let sum = edata.reduce((a,b) => a+b)
       edata = edata.map(e => e/sum)
 
       setChartData({
-        labels,
+        labels: chartDataObject.map(m => m.label),
         datasets: [
           {
-            data,
+            data: chartDataObject.map(m => m.data),
             color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
             strokeWidth: 5,
           },
         ],
       });
-
-      setEmotionChartData({
-        labels: names,
-        data: edata
-      })
 
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -93,9 +93,9 @@ export default function StatisticPage({ navigation }) {
   };
 
   const [emotionChartData, setEmotionChartData] = useState({
-    labels: ["Swim", "Bike", "Run"],
-    data: [24, 0.6, 0.8]
-  });
+    labels: ["happy", "normal", "sad", "cry", "angry"],
+    data: [0, 0, 0, 0, 0] 
+    });
   
   const [chartData, setChartData] = useState({
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -122,10 +122,10 @@ export default function StatisticPage({ navigation }) {
   return (
     <View style={tw`bg-white p-7 pt-10 flex-1`}>
       <View style={tw`items-center mt-3 `}>
+        
         <MoodChart data={chartData} />
       </View>
       <View style={tw`items-center mt-3 `}>
-        <EmotionProgressChart data={emotionChartData}></EmotionProgressChart>
       </View>
     
     </View>

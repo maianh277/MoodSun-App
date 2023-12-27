@@ -42,3 +42,4 @@ const EmotionProgressChart = ({ data }) => {
 };
 
 export default EmotionProgressChart;
+ 

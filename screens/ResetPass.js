@@ -38,15 +38,7 @@ const ResetPasswordScreen = () => {
 
       <LoginButton onLoginPress={handleResetPassword} buttonText="Continue" />
 
-      <View
-        style={tw`absolute bottom-10 right-10 w-5 h-5 bg-yellow-500 rounded-full`}
-      ></View>
-      <View
-        style={tw`absolute bottom-50 right-20 w-10 h-10 bg-yellow-500 rounded-full`}
-      ></View>
-      <View
-        style={tw`absolute bottom-30 right-30 w-20 h-20 bg-yellow-500 rounded-full opacity-50`}
-      ></View>
+      
     </View>
   );
 };

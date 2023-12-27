@@ -17,19 +17,35 @@ const EmotionProgressChart = () => {
     const userEmail = getAuth().currentUser.email;
 
     const date = new Date();
-    const month = new Date().getMonth() + 1;
+
+    const monthIndex = new Date().getMonth();
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const month = monthNames[monthIndex];
+
     setMonth(month);
-    const start = new Date(date.getFullYear(), month - 1, 1)
+    const start = new Date(date.getFullYear(), monthIndex, 1)
       .toISOString()
       .split("T")[0]
       .replace(/-/g, "/");
 
-    const end = new Date(date.getFullYear(), month, 0)
+    const end = new Date(date.getFullYear(), monthIndex + 1, 0)
       .toISOString()
       .split("T")[0]
       .replace(/-/g, "/");
-    // const start = "2023/11/30";
-    // const end = "2023/12/30";
 
     // console.log("date: ", date);
     // console.log("month: ", month);

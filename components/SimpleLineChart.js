@@ -2,11 +2,13 @@ import React from "react";
 import { View, Image, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import tw from "twrnc";
+import { Chip } from '@rneui/themed';
 
 const MoodChart = ({ data }) => {
   return (
     <View>
       <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text>
+      <Chip title="The last 7 days" containerStyle={{ marginHorizontal: 20, marginVertical: 4,  }} />
       <View style={tw`flex-row`}>
         <View style={tw`flex flex-col items-center justify-center mr-2`}>
           <Image

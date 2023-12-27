@@ -53,7 +53,7 @@ export default function StatisticPage({ navigation }) {
         const cdate = moment().diff(moment(doc.data()["date"], "YYYY/MM/DD"), "days");
         if (cdate < 7) {
           const date = doc.data()["date"].split("/")
-          // console.log(date)
+          console.log(date)
           const idx = chartDataObject.findIndex(obj => obj.label === `${date[1]}/${date[2]}`);
 
           if (idx == -1) {

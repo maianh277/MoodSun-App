@@ -19,9 +19,9 @@ const AccountComponent = () => {
   }, []);
   return (
     <View>
-      <Text style={tw`text-xl font-bold p-2`}>Account</Text>
+      <Text style={tw`text-lg font-bold`}>Account</Text>
       {email ? (
-        <Text style={tw`text-lg ml-4`}>{email}</Text>
+        <Text style={tw`text-lg`}>{email}</Text>
       ) : (
         <TouchableOpacity style={tw` border-b border-gray-200`}>
           <View style={tw`flex-row items-center p-2`}>

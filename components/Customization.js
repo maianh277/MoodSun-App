@@ -16,14 +16,14 @@ const CustomizationComponent = () => {
 
   return (
     <View>
-      <Text style={tw`mt-4 text-xl font-bold p-2`}>Customization</Text>
+      <Text style={tw`mt-4 text-lg font-bold`}>Customization</Text>
       <View>
-        <View style={tw`flex-row items-center p-2`}>
+        <View style={tw`flex-row items-center`}>
           <Image
             style={tw`h-5 w-5`}
             source={require("../assets/createTaskIcon/messenger.png")}
           />
-          <Text style={tw`text-lg ml-4`}>Daily Reminder</Text>
+          <Text style={tw`text-lg ml-2`}>Daily Reminder</Text>
           <Switch
             trackColor={{ false: "#767577", true: "#ffbc5d" }}
             thumbColor={dailyReminderEnabled ? "#fff" : "#f4f3f4"}

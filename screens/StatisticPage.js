@@ -77,7 +77,7 @@ export default function StatisticPage({ navigation }) {
       chartDataObject = chartDataObject.sort((a, b) =>
         moment(a.label, "MM/DD").diff(moment(b.label, "MM/DD"), "days")
       );
-      console.log(chartDataObject);
+      // console.log(chartDataObject);
 
       let sum = edata.reduce((a, b) => a + b);
       edata = edata.map((e) => e / sum);
@@ -90,6 +90,14 @@ export default function StatisticPage({ navigation }) {
             color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
             strokeWidth: 5,
           },
+          {
+            data: [-100],
+            withDots: false,
+          },
+          {
+            data: [100],
+            withDots: false,
+          }
         ],
       });
     } catch (error) {
@@ -103,13 +111,12 @@ export default function StatisticPage({ navigation }) {
   });
 
   const [chartData, setChartData] = useState({
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    labels: [""],
     datasets: [
       {
-        data: [20, 45, 28, 80, 99, 43, 50],
-        color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
-        strokeWidth: 2,
-      },
+        data: [0],
+        withDots: false,
+      }
     ],
   });
 

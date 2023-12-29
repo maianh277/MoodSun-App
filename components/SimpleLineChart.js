@@ -5,8 +5,25 @@ import tw from "twrnc";
 import { Chip } from '@rneui/themed';
 
 const MoodChart = ({ data }) => {
+  const chartConfig = {
+    backgroundColor: "#FEFCF5",
+    backgroundGradientFrom: "#FEFCF5",
+    backgroundGradientTo:"#FEFCF5",
+    decimalPlaces: 2,
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    style: {
+      borderRadius: 16,
+    },
+    propsForDots: {
+      r: "0",
+      strokeWidth: "5",
+      stroke: "#FC4C4C",
+    }
+  };
+
   return (
-    <View >
+    <View>
       <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text>
       <Chip title="The last 7 days" containerStyle={{ marginHorizontal: 20, marginVertical: 4,  }} />
       <View style={tw`flex-row`}>
@@ -45,34 +62,6 @@ const MoodChart = ({ data }) => {
       </View>
     </View>
   );
-};
-
-const data = {
-  labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43, 50],
-      color: (opacity = 1) => `rgba(252, 76, 76, ${opacity})`,
-      strokeWidth: 2,
-    },
-  ],
-};
-
-const chartConfig = {
-  backgroundColor: "#FEFCF5",
-  backgroundGradientFrom: "#FEFCF5",
-  backgroundGradientTo:"#FEFCF5",
-  decimalPlaces: 2,
-  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-  style: {
-    borderRadius: 16,
-  },
-  propsForDots: {
-    r: "0",
-    strokeWidth: "5",
-    stroke: "#FC4C4C",
-  },
 };
 
 export default MoodChart;

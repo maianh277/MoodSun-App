@@ -2,13 +2,16 @@ import React from "react";
 import { View, Dimensions, Image, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import tw from "twrnc";
-import { Chip } from '@rneui/themed';
+import { Chip } from "@rneui/themed";
 
 const MoodChart = ({ data }) => {
   return (
-    <View >
-      <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text>
-      <Chip title="The last 7 days" containerStyle={{ marginHorizontal: 20, marginVertical: 4,  }} />
+    <View>
+      <View style={tw`mx-10 mb-3`}>
+        <Chip title="Mood Flow | The last 7 days" />
+      </View>
+
+      {/* <Text style={tw`text-lg my-1 font-semibold text-center`}>Mood Flow</Text> */}
       <View style={tw`flex-row`}>
         <View style={tw`flex flex-col items-center justify-center mr-2`}>
           <Image
@@ -61,7 +64,7 @@ const data = {
 const chartConfig = {
   backgroundColor: "#FEFCF5",
   backgroundGradientFrom: "#FEFCF5",
-  backgroundGradientTo:"#FEFCF5",
+  backgroundGradientTo: "#FEFCF5",
   decimalPlaces: 2,
   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,

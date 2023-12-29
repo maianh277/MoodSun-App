@@ -1,14 +1,21 @@
 import { View, TextInput } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "twrnc";
-import RNPickerSelect from "react-native-picker-select";
-
+// import RNPickerSelect from "react-native-picker-select";
+import { Dropdown } from "react-native-element-dropdown";
 export default function InputName({
   value,
   onChangeText,
   itemsValue,
   onValueChange,
 }) {
+  useEffect(() => {
+    console.log(itemsValue);
+  });
+  const dropdownItems = [
+    { label: "Sport", value: "Sport" },
+    { label: "Eating", value: "Eating" },
+  ];
   return (
     <View style={tw`mt-4`}>
       <TextInput
@@ -17,15 +24,20 @@ export default function InputName({
         value={value}
         onChangeText={onChangeText}
       />
-      <View style={tw`mx-5 bg-white rounded-lg`}>
-        <RNPickerSelect
+      <View style={tw`mx-5 bg-white rounded-lg h-15 p-3`}>
+        <Dropdown
+          value={itemsValue}
+          onChange={(item) => onValueChange(item.value)}
+          data={dropdownItems}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+        />
+        {/* <RNPickerSelect
           value={itemsValue}
           onValueChange={onValueChange}
-          items={[
-            { label: "Sport", value: "Sport" },
-            { label: "Eating", value: "Eating" },
-          ]}
-        />
+          items={value}
+        /> */}
       </View>
     </View>
   );

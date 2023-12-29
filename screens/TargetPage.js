@@ -135,8 +135,8 @@ export default function TargetPage() {
 
   return (
     <ScrollView style={tw`bg-white p-2 pt-10 flex-1`}>
-      <View style={tw`flex-row justify-between items-center mx-5`}>
-        <Text style={tw`font-bold text-xl my-3 `}>Your To-do Lists</Text>
+      <View style={tw`flex-row justify-between items-center mx-5 mb-2`}>
+        <Text style={tw`font-bold text-xl`}>Your To-do Lists</Text>
         <TouchableOpacity
           style={tw`bg-orange-500 rounded-full w-10 h-10 justify-center items-center`}
           onPress={openModal}

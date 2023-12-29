@@ -16,7 +16,7 @@ const CustomizationComponent = () => {
 
   return (
     <View>
-      <Text style={tw`mt-4 text-lg font-bold`}>Customization</Text>
+      <Text style={tw`mt-5 text-[20px] font-bold`}>Customization</Text>
       <View>
         <View style={tw`flex-row items-center`}>
           <Image

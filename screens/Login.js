@@ -34,11 +34,7 @@ const LoginScreen = () => {
   }, []);
 
   const showToast = (message) => {
-    ToastAndroid.showWithGravity(
-      message,
-      ToastAndroid.SHORT,
-      ToastAndroid.TOP
-    );
+    ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.TOP);
   };
 
   const handleLogin = () => {
@@ -95,9 +91,9 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={tw`mt-12 px-4 py-2`}>
-      <Text style={tw`text-3xl font-bold`}>Hi, welcome back!</Text>
-      <Text style={tw`text-slate-400 mb-6`}>
+    <View style={tw`px-4 py-2 bg-white flex-1`}>
+      <Text style={tw`text-3xl pt-10 font-bold`}>Hi, welcome back!</Text>
+      <Text style={tw`text-slate-400 mb-4`}>
         Hello again, you've been missed!
       </Text>
 

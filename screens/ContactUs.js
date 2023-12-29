@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
 import { Card } from "@rneui/themed";
 import Icon from "react-native-vector-icons/FontAwesome";
-import tw from "twrnc";
+import tw, { style } from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 export default function ContactUs() {
@@ -12,11 +12,19 @@ export default function ContactUs() {
   };
 
   return (
-    <View style={tw`flex-1 p-4 pt-10 bg-white`}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={tw`mx-3`}>
-        <FontAwesome5 name="chevron-left" size={20} color="#000" />
-      </TouchableOpacity>
-      <Text style={tw`text-xl font-bold  text-center`}>Hi, meet our Dev</Text>
+    <View style={tw`flex-1 bg-white`}>
+      <View style={tw`bg-[#F4EDE3]`}>
+        <View style={tw`mt-10 w-10 mx-6 bg-white p-2 rounded-lg`}>
+          <TouchableOpacity
+            style={tw`m-auto`}
+            onPress={() => navigation.goBack()}
+          >
+            <FontAwesome5 name="chevron-left" size={20} color="#000" />
+          </TouchableOpacity>
+        </View>
+        <Text style={tw`font-bold text-3xl mx-6 mt-5`}>Contact us</Text>
+        <Text style={tw`text-sm mb-5 mx-6 `}>This is our app's developer</Text>
+      </View>
 
       <Card containerStyle={tw`mb-4 rounded-lg`}>
         <View style={tw`flex-row justify-between`}>

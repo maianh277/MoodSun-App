@@ -71,7 +71,7 @@ export default function HomePage() {
 
   return (
     <ScrollView style={tw`bg-white p-2 flex-1`}>
-      <Text style={tw`font-bold text-xl my-3 mx-5 mt-8`}>Your Mood Status</Text>
+      <Text style={tw`font-bold text-xl mx-5 mt-8 mb-2`}>Your Mood Status</Text>
       <View>
         <CustomCalendar
           selected={selectedDate}

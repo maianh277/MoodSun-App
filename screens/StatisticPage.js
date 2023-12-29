@@ -15,6 +15,8 @@ import {
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import moment from "moment";
+import Recommendation from "../components/Recommendation";
+import { ScrollView } from "react-native-gesture-handler";
 
 const emotionScore = {
   angry: -15,
@@ -122,15 +124,23 @@ export default function StatisticPage({ navigation }) {
       fetchData();
     });
   }, [navigation]);
-
   return (
-    <View style={tw`bg-white p-7 pt-10 flex-1`}>
-      <View style={tw`items-center mt-3 `}>
-        <MoodChart data={chartData} />
-      </View>
-      <View style={tw`items-center mt-3 `}>
+    <ScrollView style={tw`bg-white flex-1`}>
+      <Text style={tw`text-xl font-bold text-center mt-11`}>
+        Mood Statistic
+      </Text>
+      {/* <View style={tw`mx-4 my-5`}></View> */}
+      <View style={tw`items-center`}>
         <EmotionProgressChart></EmotionProgressChart>
       </View>
-    </View>
+      <View style={tw`mx-5 my-8`}>
+        {/* <Text style={tw`text-xl font-bold text-center`}>Mood</Text> */}
+        {/* <Recommendation></Recommendation> */}
+        {/* <View style={tw`mx-4 my-5`}></View> */}
+        <View style={tw`items-center`}>
+          <MoodChart data={chartData} />
+        </View>
+      </View>
+    </ScrollView>
   );
 }

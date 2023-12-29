@@ -6,6 +6,14 @@ export const emotionsImages = {
   angry: require("../assets/emoji/angry.png"),
 };
 
+export const emotionsWeatherImages = {
+  happy: require("../assets/weather/happy.png"),
+  normal: require("../assets/weather/normal.png"),
+  sad: require("../assets/weather/sad.png"),
+  cry: require("../assets/weather/cry.png"),
+  angry: require("../assets/weather/angry.png"),
+};
+
 export const emotionDetailImages = {
   angry: require("../assets/emotionDetail/angry.png"),
   anxious: require("../assets/emotionDetail/anxious.png"),

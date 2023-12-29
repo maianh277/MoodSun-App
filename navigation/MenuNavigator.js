@@ -16,6 +16,7 @@ export default function MenuNavigator() {
         component={HomePage}
         options={{ headerShown: false }}
       />
+
       <Tab.Screen
         name="StatisticPage"
         component={StatisticPage}

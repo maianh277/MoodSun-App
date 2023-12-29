@@ -6,13 +6,16 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useState } from "react";
 import tw from "twrnc";
-import { Chip, withTheme, lightColors } from "@rneui/themed";
+import { Chip } from "@rneui/themed";
+import Recommendation from "./Recommendation";
+
 const EmotionProgressChart = () => {
   const [data, setData] = useState({
     labels: ["happy", "normal", "sad", "cry", "angry"],
     data: [],
   });
   const [month, setMonth] = useState("");
+  const [maxEmotion, setMaxEmotion] = useState("");
   useEffect(() => {
     const userEmail = getAuth().currentUser.email;
 
@@ -47,10 +50,6 @@ const EmotionProgressChart = () => {
       .split("T")[0]
       .replace(/-/g, "/");
 
-    // console.log("date: ", date);
-    // console.log("month: ", month);
-    // console.log("start day:", start);
-    // console.log("end day:", end);
     const q = query(
       collection(db, "emotion"),
       where("account", "==", userEmail),
@@ -66,7 +65,6 @@ const EmotionProgressChart = () => {
       const emotionGenerals = newEmotion.map(
         (item) => item.emotionGeneral.name
       );
-      // console.log("emotionGenerals:", emotionGenerals);
 
       // Đếm số emotion
       const result = emotionGenerals.reduce((acc, name) => {
@@ -74,11 +72,15 @@ const EmotionProgressChart = () => {
           acc[name] = 0;
         }
         acc[name]++;
-        // console.log("acc:", acc);
-        // console.log("name:", name);
 
         return acc;
       }, {});
+
+      const maxEmotion = Object.keys(result).reduce((a, b) => {
+        return result[a] > result[b] ? a : b;
+      });
+      setMaxEmotion(maxEmotion);
+      // console.log(maxEmotion);
       const total = Object.values(result).reduce((a, b) => a + b, 0);
       setData((prev) => ({
         ...prev,
@@ -118,14 +120,14 @@ const EmotionProgressChart = () => {
 
   return (
     <View>
-      <Text style={tw`text-xl font-bold mb-2 text-center`}>Mood Progress</Text>
-      <View style={tw`mx-20 my-4`}>
-        <Chip title={`${month}`} />
+      <Recommendation maxEmotion={maxEmotion} month={month} />
+      <View style={tw`mx-20 my-3`}>
+        <Chip title={`Mood Bar | ${month}`} />
       </View>
       <ProgressChart
         style={tw`rounded-lg`}
         data={data}
-        width={screenWidth * 0.9}
+        width={screenWidth}
         height={220}
         strokeWidth={16}
         radius={32}

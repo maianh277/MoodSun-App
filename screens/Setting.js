@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, ScrollView } from "react-native";
+import { Text, TouchableOpacity, ScrollView, View } from "react-native";
 import tw from "twrnc";
 import Account from "../components/Account";
 import Customization from "../components/Customization";
@@ -37,21 +37,25 @@ const SettingsScreen = () => {
   };
 
   return (
-    <ScrollView style={tw`bg-white p-7 pt-10 flex-1`}>
-      <Text style={tw`font-bold text-2xl mb-2 text-center`}>Setting</Text>
-      <Account />
-      <Customization isEnabled={isEnabled} toggleSwitch={toggleSwitch} />
-      <ServiceCenter />
-      {email ? (
-        <TouchableOpacity
-          onPress={handleLogout}
-          style={tw`mt-5 items-center bg-[#FF9560] p-3 mx-20 rounded-lg`}
-        >
-          <Text style={tw`text-lg font-semibold text-white`}>Log out</Text>
-        </TouchableOpacity>
-      ) : (
-        ""
-      )}
+    <ScrollView style={tw`bg-white flex-1`}>
+      <View style={tw`bg-[#F4EDE3]`}>
+        <Text style={tw`font-bold text-3xl mb-5 mx-6 mt-20`}>Setting</Text>
+      </View>
+      <View style={tw`mx-7 mt-3`}>
+        <Account />
+        <Customization isEnabled={isEnabled} toggleSwitch={toggleSwitch} />
+        <ServiceCenter />
+        {email ? (
+          <TouchableOpacity
+            onPress={handleLogout}
+            style={tw`mt-7 items-center bg-[#FF9560] p-3 rounded-2xl`}
+          >
+            <Text style={tw`text-lg font-semibold text-white`}>Log out</Text>
+          </TouchableOpacity>
+        ) : (
+          ""
+        )}
+      </View>
     </ScrollView>
   );
 };

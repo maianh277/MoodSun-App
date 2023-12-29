@@ -91,6 +91,7 @@ export default function CreateTaskInputPage({
             setItemsValue(itemsValue);
           }}
         />
+
         <View style={tw`bg-white mt-3 mx-5 rounded-lg mb-4`}>
           {/* <TimeAndReminderTask /> */}
           <View style={tw`h-[1.5px] bg-gray-100 mx-6 mt-1`}></View>

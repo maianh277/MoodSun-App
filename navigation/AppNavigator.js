@@ -12,6 +12,7 @@ import SignUp from "../screens/SignUp";
 import TermsOfService from "../screens/TermsOfService";
 import CreateTaskInputPage from "../screens/CreateTaskInputPage";
 import ContactUs from "../screens/ContactUs";
+import RecommendPage from "../screens/RecommendPage";
 const Stack = createStackNavigator();
 export default function AppNavigator() {
   return (
@@ -74,6 +75,11 @@ export default function AppNavigator() {
       <Stack.Screen
         name="Signup"
         component={SignUp}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RecommendPage"
+        component={RecommendPage}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

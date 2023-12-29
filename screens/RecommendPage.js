@@ -30,8 +30,8 @@ export default function RecommendPage({ route, navigation }) {
         </View>
         <Text style={tw`font-bold text-3xl mx-6 mt-5`}>Recommendation</Text>
         <Text style={tw`text-sm mb-5 mx-6 `}>
-          We see that you were {maxEmotion} these days, so we recommend you
-          paper
+          We see that you were {maxEmotion} these days, so we recommend you some
+          papers
         </Text>
       </View>
       {paperRecommend &&

@@ -24,11 +24,8 @@ const MoodChart = ({ data }) => {
 
   return (
     <View>
-      <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text>
-      <Chip
-        title="The last 7 days"
-        containerStyle={{ marginHorizontal: 20, marginVertical: 4 }}
-      />
+      {/* <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text> */}
+      <Chip title="The last 7 days" style={tw`mx-20 mb-3`} />
       <View style={tw`flex-row`}>
         <View style={tw`flex flex-col items-center justify-center mr-2`}>
           <Image

@@ -4,7 +4,6 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import tw from "twrnc";
 import { Card } from "@rneui/themed";
 import { emotionsPaper } from "../path/paper";
-
 export default function RecommendPage({ route, navigation }) {
   const { maxEmotion } = route.params;
   const paperRecommend = emotionsPaper[maxEmotion];
@@ -40,7 +39,12 @@ export default function RecommendPage({ route, navigation }) {
             key={index}
             onPress={() => Linking.openURL(item.url)}
           >
-            <Card>
+            <Card
+              containerStyle={{
+                shadowColor: "rgba(0,0,0, 0.0)",
+                borderRadius: 10,
+              }}
+            >
               <Card.Image source={{ uri: item.image }} />
               <Card.Divider />
               <Card.Title>{item.title}</Card.Title>

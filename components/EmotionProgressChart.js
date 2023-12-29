@@ -106,8 +106,8 @@ const EmotionProgressChart = () => {
   ];
 
   const chartConfig = {
-    backgroundGradientFrom: "#FEFCF5",
-    backgroundGradientTo: "#FEFCF5",
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientTo: "#FFFFFF",
     color: (opacity = 1, index) => {
       return index != undefined
         ? colors[index].replace("opct", opacity)
@@ -122,17 +122,15 @@ const EmotionProgressChart = () => {
     <View>
       <Recommendation maxEmotion={maxEmotion} month={month} />
       <View style={tw`mx-20 my-3`}>
-        <Chip title={`Mood Bar | ${month}`} />
+        <Chip title={`Mood Bar | ${month}`} type="outline" />
       </View>
       <ProgressChart
-        style={tw`rounded-lg`}
         data={data}
         width={screenWidth}
         height={220}
         strokeWidth={16}
         radius={32}
         chartConfig={chartConfig}
-        hideLegend={false}
       />
     </View>
   );

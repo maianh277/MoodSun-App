@@ -7,10 +7,10 @@ import { Chip } from "@rneui/themed";
 const MoodChart = ({ data }) => {
   const chartConfig = {
     backgroundColor: "#FEFCF5",
-    backgroundGradientFrom: "#FEFCF5",
-    backgroundGradientTo: "#FEFCF5",
+    backgroundGradientFrom: "#FFFFFF",
+    backgroundGradientTo: "#FFFFFF",
     decimalPlaces: 2,
-    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    color: (opacity = 1) => `rgba(255, 165, 0, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     style: {
       borderRadius: 16,
@@ -25,9 +25,11 @@ const MoodChart = ({ data }) => {
   return (
     <View>
       {/* <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text> */}
-      <Chip title="The last 7 days" style={tw`mx-20 mb-3`} />
+      <View style={tw`mx-15 mb-3`}>
+        <Chip title="The last 7 days" type="outline" />
+      </View>
       <View style={tw`flex-row`}>
-        <View style={tw`flex flex-col items-center justify-center mr-2`}>
+        <View style={tw`flex flex-col items-center justify-center mr-4`}>
           <Image
             source={require("../assets/emotionDetail/excited.png")}
             style={tw`mb-2 w-7 h-7`}
@@ -49,7 +51,6 @@ const MoodChart = ({ data }) => {
             style={tw`mb-2 w-7 h-7`}
           />
         </View>
-
         <LineChart
           data={data}
           width={320}
@@ -58,6 +59,7 @@ const MoodChart = ({ data }) => {
           bezier
           hidePointsAtIndex={[]}
           withHorizontalLabels={false}
+          style={tw`pr-0`}
         />
       </View>
     </View>

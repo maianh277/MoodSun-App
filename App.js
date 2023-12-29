@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./navigation/AppNavigator";
 import SplashScreen from "./screens/SplashScreen";
 import registerNNPushToken from "native-notify";
-
 export default function App() {
   registerNNPushToken(17058, "ObOAeZY8EmMaLS80Hz8j5Z");
   const [isLoading, setIsLoading] = useState(true);

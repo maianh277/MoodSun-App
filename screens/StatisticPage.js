@@ -99,7 +99,7 @@ export default function StatisticPage({ navigation }) {
           {
             data: [100],
             withDots: false,
-          }
+          },
         ],
       });
     } catch (error) {
@@ -118,7 +118,7 @@ export default function StatisticPage({ navigation }) {
       {
         data: [0],
         withDots: false,
-      }
+      },
     ],
   });
 
@@ -133,9 +133,16 @@ export default function StatisticPage({ navigation }) {
   }, [navigation]);
   return (
     <ScrollView style={tw`bg-white flex-1`}>
-      <Text style={tw`text-xl font-bold text-center mt-11`}>
-        Mood Statistic
-      </Text>
+      <View style={tw`bg-[#F4EDE3]`}>
+        <Text style={tw`font-bold text-3xl mb-5 mx-6 mt-20`}>
+          Mood Statistic
+        </Text>
+        {/* <Text style={tw`text-sm mb-5 ml-6 mr-5 text-justify`}>
+          Here you can view your mood statistics to understand your mood
+          patterns and make necessary adjustments to improve your well-being.
+        </Text> */}
+      </View>
+
       {/* <View style={tw`mx-4 my-5`}></View> */}
       <View style={tw`items-center`}>
         <EmotionProgressChart></EmotionProgressChart>

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Image } from 'react-native';
 import tw from 'twrnc';
 
-const SignUpForm = ({ email, setEmail, phone, setPhone, password, setPassword, confirmPassword, setConfirmPassword, secureTextEntry, setSecureTextEntry }) => {
+const SignUpForm = ({ email, setEmail, phone, setPhone, password, setPassword, confirmPassword, setConfirmPassword }) => {
+    // Tạo hai biến trạng thái riêng biệt cho mật khẩu và xác nhận mật khẩu
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const [confirmSecureTextEntry, setConfirmSecureTextEntry] = useState(true);
+
     return (
         <>
             <TextInput
@@ -38,14 +42,14 @@ const SignUpForm = ({ email, setEmail, phone, setPhone, password, setPassword, c
                 <TextInput
                     style={tw`flex-1`}
                     placeholder="Confirm Password"
-                    secureTextEntry={secureTextEntry}
+                    secureTextEntry={confirmSecureTextEntry}
                     onChangeText={setConfirmPassword}
                     value={confirmPassword}
                 />
-                <TouchableOpacity onPress={() => setSecureTextEntry(!secureTextEntry)}>
+                <TouchableOpacity onPress={() => setConfirmSecureTextEntry(!confirmSecureTextEntry)}>
                     <Image
                         style={tw`w-6 h-6`}
-                        source={secureTextEntry ? require('../assets/createTaskIcon/off.png') : require('../assets/createTaskIcon/view.png')}
+                        source={confirmSecureTextEntry ? require('../assets/createTaskIcon/off.png') : require('../assets/createTaskIcon/view.png')}
                     />
                 </TouchableOpacity>
             </View>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity } from "react-native";
+import { View, Text, ToastAndroid } from "react-native";
 import tw from "twrnc";
 import SignUpForm from "../components/SignUpForm";
 import SocialLoginOptions from "../components/SocialLoginOptions";
@@ -26,6 +26,7 @@ const SignUp = () => {
       const auth = getAuth();
       await createUserWithEmailAndPassword(auth, email, password);
       ToastAndroid.show("Account created successfully!", ToastAndroid.SHORT);
+      navigation.navigate('Login'); 
     } catch (error) {
       let errorMessage = "";
       switch (error.code) {

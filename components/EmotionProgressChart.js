@@ -14,6 +14,12 @@ const EmotionProgressChart = () => {
     labels: ["happy", "normal", "sad", "cry", "angry"],
     data: [],
   });
+
+  const defaultData = [0, 0, 0, 0, 0, 0, 0];
+  if (!data || data.length === 0) {
+    setData(defaultData);
+    return;
+  }
   const [month, setMonth] = useState("");
   const [maxEmotion, setMaxEmotion] = useState("");
   useEffect(() => {
@@ -40,6 +46,7 @@ const EmotionProgressChart = () => {
     const month = monthNames[monthIndex];
 
     setMonth(month);
+
     const start = new Date(date.getFullYear(), monthIndex, 1)
       .toISOString()
       .split("T")[0]
@@ -72,15 +79,17 @@ const EmotionProgressChart = () => {
           acc[name] = 0;
         }
         acc[name]++;
-
         return acc;
       }, {});
 
-      const maxEmotion = Object.keys(result).reduce((a, b) => {
-        return result[a] > result[b] ? a : b;
-      });
+      // const maxEmotion = Object.keys(result).reduce((a, b) => {
+      //   return result[a] > result[b] ? a : b;
+      // });
+      const maxEmotion =
+        Object.keys(result)
+          .map((key) => ({ emotion: key, count: result[key] }))
+          .sort((a, b) => b.count - a.count)[0]?.emotion || "";
       setMaxEmotion(maxEmotion);
-      // console.log(maxEmotion);
       const total = Object.values(result).reduce((a, b) => a + b, 0);
       setData((prev) => ({
         ...prev,

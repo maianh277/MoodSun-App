@@ -12,13 +12,13 @@ const SignUpForm = ({ email, setEmail, phone, setPhone, password, setPassword, c
                 onChangeText={setEmail}
                 value={email}
             />
-            <TextInput
+            {/* <TextInput
                 style={tw`border border-gray-300 p-4 rounded mb-2`}
                 placeholder="Phone"
                 keyboardType="phone-pad"
                 onChangeText={setPhone}
                 value={phone}
-            />
+            /> */}
             <View style={tw`flex-row items-center border border-gray-300 p-4 rounded mb-2`}>
                 <TextInput
                     style={tw`flex-1`}

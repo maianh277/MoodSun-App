@@ -93,7 +93,7 @@ export default function Task({
                 },
               ]}
             >
-              {items} at {date}
+              #{items}
             </Text>
           </View>
         </View>

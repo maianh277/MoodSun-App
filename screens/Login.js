@@ -78,14 +78,18 @@ const LoginScreen = () => {
           case "auth/user-not-found":
             showToast("No user found with this email.");
             break;
-          case "auth/wrong-password":
-            showToast("Incorrect password.");
-            break;
+          // case "auth/wrong-password":
+          //   showToast("Incorrect password.");
+          //   break;
           case "auth/invalid-email":
             showToast("Invalid email.");
             break;
+          case "auth/invalid-credential":
+            showToast("Invalid email or password.");
+            break;
           default:
-            showToast("An error occurred: " + error.message);
+            showToast("Unknown error");
+            console.log("Error occured: ", error.message);
         }
       });
   };

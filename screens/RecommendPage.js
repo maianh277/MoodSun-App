@@ -4,6 +4,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import tw from "twrnc";
 import { Card } from "@rneui/themed";
 import { emotionsPaper } from "../path/paper";
+import { ScrollView } from "react-native-gesture-handler";
 export default function RecommendPage({ route, navigation }) {
   const { maxEmotion } = route.params;
   const paperRecommend = emotionsPaper[maxEmotion];
@@ -33,24 +34,26 @@ export default function RecommendPage({ route, navigation }) {
           papers
         </Text>
       </View>
-      {paperRecommend &&
-        paperRecommend.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => Linking.openURL(item.url)}
-          >
-            <Card
-              containerStyle={{
-                shadowColor: "rgba(0,0,0, 0.0)",
-                borderRadius: 10,
-              }}
+      <ScrollView>
+        {paperRecommend &&
+          paperRecommend.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => Linking.openURL(item.url)}
             >
-              <Card.Image source={{ uri: item.image }} />
-              <Card.Divider />
-              <Card.Title>{item.title}</Card.Title>
-            </Card>
-          </TouchableOpacity>
-        ))}
+              <Card
+                containerStyle={{
+                  shadowColor: "rgba(0,0,0, 0.0)",
+                  borderRadius: 10,
+                }}
+              >
+                <Card.Image source={{ uri: item.image }} />
+                <Card.Divider />
+                <Card.Title>{item.title}</Card.Title>
+              </Card>
+            </TouchableOpacity>
+          ))}
+      </ScrollView>
     </View>
   );
 }

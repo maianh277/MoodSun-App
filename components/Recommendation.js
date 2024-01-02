@@ -40,26 +40,33 @@ export default function Recommendation({ maxEmotion, month }) {
       >
         <TouchableOpacity
           style={tw`flex-row items-center mt-3`}
-          onPress={() =>
-            navigation.navigate("RecommendPage", {
-              maxEmotion,
-            })
+          onPress={
+            maxEmotion
+              ? () => navigation.navigate("RecommendPage", { maxEmotion })
+              : undefined
           }
         >
           <Text style={tw`ml-4 mr-2 font-bold text-lg`}>Your Mood Weather</Text>
           <FontAwesome5 name="chevron-right" />
         </TouchableOpacity>
+
         <View style={tw`flex-row rounded-lg my-2 p-3 bg-white mx-3`}>
-          <Image source={imageEmotions} style={tw`h-20 w-20`} />
-          <View>
-            <View style={tw`ml-3 `}>
-              <Text style={tw`text-2xl font-bold`}>{weather}</Text>
-              <Text style={tw`w-50`}>
-                In this {month}, most of time you were
-                <Text style={tw`font-bold`}> {maxEmotion}</Text>
-              </Text>
-            </View>
-          </View>
+          {!maxEmotion ? (
+            <Text>Does not have data. Please input emotion.</Text>
+          ) : (
+            <>
+              <Image source={imageEmotions} style={tw`h-20 w-20`} />
+              <View>
+                <View style={tw`ml-3 `}>
+                  <Text style={tw`text-2xl font-bold`}>{weather}</Text>
+                  <Text style={tw`w-50`}>
+                    In this {month}, most of time you were
+                    <Text style={tw`font-bold`}> {maxEmotion}</Text>
+                  </Text>
+                </View>
+              </View>
+            </>
+          )}
         </View>
       </View>
     </View>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ToastAndroid, TouchableOpacity } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { View, Text, ToastAndroid } from "react-native";
 import tw from "twrnc";
 import SignUpForm from "../components/SignUpForm";
 import SocialLoginOptions from "../components/SocialLoginOptions";

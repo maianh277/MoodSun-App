@@ -38,9 +38,6 @@ export default function CreateEmotion({ navigation, route }) {
     navigation.goBack();
     navigation.setParams({ isModal: false });
   };
-  // useEffect(() => {
-  //   console.log(isModal);
-  // }, [isModal]);
 
   // chon emotion general
   const handleSelectedEmotion = (emotion) => {
@@ -53,14 +50,6 @@ export default function CreateEmotion({ navigation, route }) {
   const handleSelectedAcquaintance = (acquaintance) => {
     setAcquaintance(acquaintance);
   };
-
-  // lấy user email để lưu khi tạo task
-  // useEffect(() => {
-  //   const user = getAuth().currentUser;
-  //   if (user) {
-  //     setAccount(user.email);
-  //   }
-  // }, []);
 
   const onDateChange = (date) => {
     setSelectedDate(date);
@@ -108,7 +97,6 @@ export default function CreateEmotion({ navigation, route }) {
 
       console.log(formattedDate);
       ToastAndroid.show("Add data successful", ToastAndroid.LONG);
-      // console.log("Add data successful");
       closeModal();
     } catch (error) {
       console.log(error);
@@ -157,7 +145,7 @@ export default function CreateEmotion({ navigation, route }) {
         <View>
           <View style={tw`flex-row items-center justify-between mt-5 mx-7 `}>
             <Text
-              style={tw`text-lg font-bold`}
+              style={tw`text-lg font-bold underline`}
               onPress={() => setShowDatePicker(true)}
             >
               Date{" "}

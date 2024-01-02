@@ -13,14 +13,14 @@ const EmailAndPasswordInput = ({
   return (
     <>
       <TextInput
-        style={tw`border border-gray-300 p-3 rounded mb-2`}
+        style={tw`border border-gray-300 p-3 rounded-xl mb-2`}
         placeholder="Email"
         keyboardType="email-address"
         onChangeText={setEmail}
         value={email}
       />
       <View
-        style={tw`flex-row items-center border border-gray-300 p-3 rounded mb-2`}
+        style={tw`flex-row items-center border border-gray-300 p-3 rounded-xl mb-2 my-2`}
       >
         <TextInput
           style={tw`flex-1`}

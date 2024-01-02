@@ -95,50 +95,54 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={tw`px-4 py-2 bg-white flex-1`}>
-      <Text style={tw`text-3xl pt-10 font-bold`}>Hi, welcome back!</Text>
-      <Text style={tw`text-slate-400 mb-4`}>
+    <View style={tw`px-4 py-10 bg-white flex-1`}>
+      <Text style={tw`text-3xl pt-10 px-2 font-bold`}>Hi, welcome back!</Text>
+      <Text style={tw`text-slate-400 mb-4 px-2`}>
         Hello again, you've been missed!
       </Text>
+      <View style={tw`p-2`}>
+        <EmailAndPasswordInput
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          secureTextEntry={secureTextEntry}
+          setSecureTextEntry={setSecureTextEntry}
+        />
 
-      <EmailAndPasswordInput
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        secureTextEntry={secureTextEntry}
-        setSecureTextEntry={setSecureTextEntry}
-      />
+        <LoginButton onLoginPress={handleLogin} buttonText="Login" />
+        <View style={tw`flex-row items-center justify-between mb-4`}>
+          <View style={tw`flex-row items-center`}>
+            <CheckBox
+              checked={rememberMe}
+              onPress={() => setRememberMe(!rememberMe)}
+              containerStyle={tw`p-0 m-0`}
+            />
+            <Text style={tw``}>Remember me</Text>
+          </View>
 
-      <LoginButton onLoginPress={handleLogin} buttonText="Login" />
-      <View style={tw`flex-row items-center justify-between mb-4`}>
-        <View style={tw`flex-row items-center`}>
-          <CheckBox
-            checked={rememberMe}
-            onPress={() => setRememberMe(!rememberMe)}
-            containerStyle={tw`p-0 m-0`}
-          />
-          <Text style={tw``}>Remember me</Text>
+          <Text
+            style={tw`text-blue-500`}
+            onPress={() => navigation.navigate("ResetPassword")}
+          >
+            Forgot Password
+          </Text>
         </View>
-
-        <Text
-          style={tw`text-blue-500`}
-          onPress={() => navigation.navigate("ResetPassword")}
-        >
-          Forgot Password
-        </Text>
-      </View>
-
-      <DividerText />
-      <SocialLoginOptions></SocialLoginOptions>
-      <View style={tw`flex-row justify-center mb-2 mt-4`}>
-        <Text>Don't have an account? </Text>
-        <Text
-          style={tw`underline text-blue-500`}
-          onPress={() => navigation.navigate("Signup")}
-        >
-          Sign up
-        </Text>
+        <View>
+          <DividerText />
+        </View>
+        <View style={tw`mt-3`}>
+          <SocialLoginOptions></SocialLoginOptions>
+        </View>
+        <View style={tw`flex-row justify-center mt-4`}>
+          <Text>Don't have an account?</Text>
+          <Text
+            style={tw`underline text-blue-500`}
+            onPress={() => navigation.navigate("Signup")}
+          >
+            Sign up
+          </Text>
+        </View>
       </View>
     </View>
   );

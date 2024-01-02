@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Text, TextInput, Alert, ToastAndroid } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import LoginButton from "../components/CustomButton";
 import tw from "twrnc";
@@ -13,23 +13,31 @@ const ResetPasswordScreen = () => {
   const handleResetPassword = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        Alert.alert("Kiểm tra email của bạn để thay đổi mật khẩu");
+        ToastAndroid.show(
+          "Check your email to change password",
+          ToastAndroid.SHORT
+        );
         navigation.navigate("Login");
       })
       .catch((error) => {
-        Alert.alert("Error", error.message);
+        if (error.code === "auth/invalid-email") {
+          ToastAndroid.show("Invalid email", ToastAndroid.SHORT);
+        } else {
+          console.log("Error", error.message);
+          ToastAndroid.show("Unknown error", ToastAndroid.SHORT);
+        }
       });
   };
 
   return (
-    <View style={tw`px-4 bg-white flex-1`}>
-      <Text style={tw`text-3xl mt-10 font-bold `}>Reset Password</Text>
+    <View style={tw`px-4 bg-white flex-1 p-6 mt-3`}>
+      <Text style={tw`text-3xl mt-10 font-bold`}>Reset Password</Text>
       <Text style={tw`text-slate-400 mb-4`}>
         Please input your email to recover your password
       </Text>
 
       <TextInput
-        style={tw`border border-gray-300 p-4 rounded mb-4`}
+        style={tw`border border-gray-300 p-4 rounded-xl mb-2`}
         placeholder="Email"
         keyboardType="email-address"
         onChangeText={setEmail}

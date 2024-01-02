@@ -1,28 +1,34 @@
 export const emotionsPaper = {
   happy: [
     {
+      image:
+        "https://www.vinmec.com/s3-images/size/xxlarge/20211219_132736_196717_suc-khoe-va-hanh-ph.max-1800x1800.jpeg",
       title: "Hạnh phúc giúp bạn khoẻ mạnh như thế nào?",
       url: "https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/song-khoe/hanh-phuc-giup-ban-khoe-manh-nhu-nao/",
     },
     {
+      image:
+        "https://i1-giadinh.vnecdn.net/2021/05/04/Dong-cam-8650-1620103753.jpg?w=680&h=0&q=100&dpr=1&fit=crop&s=77TrztDFftQvA321Ecg9sA",
       title: "Vì sao hạnh phúc giúp bạn khoẻ hơn?",
       url: "https://vnexpress.net/vi-sao-hanh-phuc-giup-ban-khoe-hon-4272352.html",
     },
     {
+      image:
+        "https://pasteur.com.vn/wp-content/uploads/2022/02/song-hanh-phuc-va-song-khoe.jpg",
       title: "Sống hạnh phúc giúp sức khoẻ tốt",
       url: "https://pasteur.com.vn/bai-viet/song-hanh-phuc-giup-suc-khoe-tot/",
-    },
-    {
-      title: "Hạnh phúc giúp bạn khoẻ mạnh như thế nào?",
-      url: "https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/song-khoe/hanh-phuc-giup-ban-khoe-manh-nhu-nao/",
     },
   ],
   normal: [
     {
+      image:
+        "https://shanhealth.vn/wp-content/uploads/2023/06/cai-thien-tam-trang-1.jpg",
       title: "Cải thiện tâm trạng",
       url: "https://shanhealth.vn/cai-thien-tam-trang/",
     },
     {
+      image:
+        "https://cdn.hellobacsi.com/wp-content/uploads/2018/01/cai-thien-tam-trang-ngay-dau-tuan1-e1516358772779.jpg",
       title: "Cải thiện tâm trạng ngay đầu tuần",
       url: "https://hellobacsi.com/tam-ly-tam-than/cai-thien-tam-trang-ngay-dau-tuan/",
     },

@@ -24,31 +24,30 @@ const MoodChart = ({ data }) => {
 
   return (
     <View>
-      {/* <Text style={tw`text-lg font-bold mb-2 text-center`}>Mood Flow</Text> */}
       <View style={tw`mx-15 mb-3`}>
         <Chip title="The last 7 days" type="outline" />
       </View>
       <View style={tw`flex-row`}>
         <View style={tw`flex flex-col items-center justify-center mr-4`}>
           <Image
-            source={require("../assets/emotionDetail/excited.png")}
-            style={tw`mb-2 w-7 h-7`}
+            source={require("../assets/emoji/happy.png")}
+            style={tw`mb-1 w-8 h-8`}
           />
           <Image
-            source={require("../assets/emotionDetail/happy.png")}
-            style={tw`mb-2 w-7 h-7`}
+            source={require("../assets/emoji/normal.png")}
+            style={tw`mb-2 w-8 h-8`}
           />
           <Image
-            source={require("../assets/emotionDetail/tired.png")}
-            style={tw`mb-2 w-7 h-7`}
+            source={require("../assets/emoji/sad.png")}
+            style={tw`mb-1 w-8 h-8`}
           />
           <Image
-            source={require("../assets/emotionDetail/sad.png")}
-            style={tw`mb-2 w-7 h-7`}
+            source={require("../assets/emoji/cry.png")}
+            style={tw`mb-2 w-8 h-8`}
           />
           <Image
-            source={require("../assets/emotionDetail/angry.png")}
-            style={tw`mb-2 w-7 h-7`}
+            source={require("../assets/emoji/angry.png")}
+            style={tw`mb-4 w-8 h-8`}
           />
         </View>
         <LineChart

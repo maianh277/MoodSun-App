@@ -47,16 +47,17 @@ const EmotionProgressChart = () => {
 
     setMonth(month);
 
-    const start = new Date(date.getFullYear(), monthIndex, 1)
+    const start = new Date(date.getFullYear(), monthIndex, 2)
       .toISOString()
       .split("T")[0]
       .replace(/-/g, "/");
 
+    // console.log("start", start);
     const end = new Date(date.getFullYear(), monthIndex + 1, 0)
       .toISOString()
       .split("T")[0]
       .replace(/-/g, "/");
-
+    // console.log("end", end);
     const q = query(
       collection(db, "emotion"),
       where("account", "==", userEmail),

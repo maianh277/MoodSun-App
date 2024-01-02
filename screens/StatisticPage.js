@@ -35,15 +35,7 @@ export default function StatisticPage({ navigation }) {
         query(collection(db, "emotion"), where("account", "==", userEmail))
       );
 
-      // console.log(querySnapshot.docs)
-
-      // const newEmotion = querySnapshot.docs.map((doc) => ({
-      //   ...doc.data(),
-      // }));
       let chartDataObject = [];
-      // const labels = [];
-      const names = ["happy", "normal", "sad", "cry", "angry"];
-      // const data = []
       let edata = [0, 0, 0, 0, 0];
       let currentScore = 0;
 
@@ -54,7 +46,6 @@ export default function StatisticPage({ navigation }) {
         );
         if (cdate < 7) {
           const date = doc.data()["date"].split("/");
-          // console.log(date)
           const idx = chartDataObject.findIndex(
             (obj) => obj.label === `${date[1]}/${date[2]}`
           );
@@ -63,7 +54,6 @@ export default function StatisticPage({ navigation }) {
             let newScore =
               currentScore +
               parseInt(emotionScore[doc.data().emotionGeneral.name]);
-            // if (newScore < 0) newScore = 0;
 
             chartDataObject.push({
               label: `${date[1]}/${date[2]}`,
@@ -76,10 +66,13 @@ export default function StatisticPage({ navigation }) {
           }
         }
       }
+      chartDataObject.unshift({
+        label: "",
+        data: chartDataObject[0].data,
+      });
       chartDataObject = chartDataObject.sort((a, b) =>
         moment(a.label, "MM/DD").diff(moment(b.label, "MM/DD"), "days")
       );
-      // console.log(chartDataObject);
 
       let sum = edata.reduce((a, b) => a + b);
       edata = edata.map((e) => e / sum);
@@ -106,11 +99,6 @@ export default function StatisticPage({ navigation }) {
       console.error("Error fetching tasks:", error);
     }
   };
-
-  const [emotionChartData, setEmotionChartData] = useState({
-    labels: ["happy", "normal", "sad", "cry", "angry"],
-    data: [0, 0, 0, 0, 0],
-  });
 
   const [chartData, setChartData] = useState({
     labels: [""],

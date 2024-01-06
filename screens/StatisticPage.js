@@ -96,7 +96,7 @@ export default function StatisticPage({ navigation }) {
         ],
       });
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.log("Error fetching tasks:", error);
     }
   };
 
